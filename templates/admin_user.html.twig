@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin utilisateur{% endblock %}
+
+{% block body %}
+<section>
+  <h1>Admin utilisateur</h1>
+
+  <section>
+    <h2>Changer un mot de passe</h2>
+    <div style="display: flex; gap: 2em;">
+      {{ form(formUsers) }}
+    </div>
+  </section>
+
+  {% for label, messages in app.flashes %}
+      {% for message in messages %}
+          <div class="flash-{{ label }}">{{ message }}</div>
+      {% endfor %}
+  {% endfor %}
+
+</section>
+{% endblock %}

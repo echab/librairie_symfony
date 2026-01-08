@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Blog Home{% endblock %}
+
+{% block content %}
+<section>
+    <h1>Coups de cœur du rayon {{ rayon.titre }}</h1>
+
+    {% for post in posts %}
+    <article class="post">
+        <a href="{{ path('coups-de-coeur_view', {'slug': post.slug, 'category': post.category}) }}">
+            <h2>{{ post.titre }}</h2>
+        </a>
+        {% if post.auteur is defined %}<h3>par {{ post.auteur }}</h3>{% endif %}
+        
+        <div class="contenu">{{ post.html|raw }}</div>
+
+        <p class="info">
+            {% if post.editeur is defined %}<span>Edité par {{post.editeur}}</span>{% endif %}
+            {% if post.prix is defined %}<span>Prix&nbsp;: {{post.prix}}€</span>{% endif %}
+            {% if post.parution is defined %}<span>Paru le {{post.parution|format_date('long')}}</span>{% endif %}
+            {# <span>{{post.n}}&nbsp;en stock</span> #}
+            {% if post.ean is defined %}
+                <button class="addPanier"
+                    data-ean="{{post.ean}}"
+                    data-titre="{{post.titre}}"
+                    data-auteur="{{post.auteur ?? ''}}"
+                    data-prix="{{post.prix ?? 0}}"
+                    data-rayon="{{post.rayonCode ?? ''}}"
+                >Ajouter au panier</button>
+            {% endif %}
+            <span>Rayon {{post.category}}</span>
+            <span>❤️ {{post.libraire ?? ''}} le {{ post.date|format_date('long') }}</span>
+        </p>
+    </article>
+    {% else %}
+        <p>Pas de coup de cœur dans ce rayon, avez-vous des suggestions ?</p>
+    {% endfor %}
+</section>
+{% endblock %}

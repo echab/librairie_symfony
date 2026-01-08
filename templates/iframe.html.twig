@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %} - Librairie - Les passantes</title>
+    <link rel="icon" href="{{ asset('images/logo1-32x32.png') }}" sizes="32x32">
+    <link rel="icon" href="{{ asset('images/logo1-192x192.png') }}" sizes="192x192">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo1-180x180.png') }}">
+    {% block stylesheets %}
+    <meta name="color-scheme" content="light dark" />
+    {% endblock %}
+    {% block javascripts %}
+        {% block importmap %}
+            {{ importmap('app') }}
+        {% endblock %}
+        {% block scripts %}{% endblock %}
+    {% endblock %}
+</head>
+<body>
+    {% block body %}{% endblock %}
+    {% block endscripts %}{% endblock %}
+</body>
+</html>

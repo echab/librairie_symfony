@@ -1,0 +1,51 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block content %}
+<section class="une">
+    {% for post in unes %}
+        <article class="post">
+            <a href="{{ path('post_view', { 'category': 'a-la-une', 'slug': post.slug }) }}">
+                <h2>{{ post.titre }}</h2>
+            </a>
+            <p>{{ post.html|raw }}</p>
+            <p class="info">
+                <i>publié à la une le {{ post.date|format_date('long') }} par {{ post.libraire }}.</i>
+            </p>
+        </article>
+    {% endfor %}
+</section>
+
+<section class="postInfo">
+    {% for post in infos %}
+        <article class="post">
+            <a href="{{ path('post_view', { 'category': 'info', 'slug': post.slug }) }}">
+                <h2>{{ post.titre }}</h2>
+            </a>
+            <p>{{ post.html|raw }}</p>
+        </article>
+    {% endfor %}
+</section>
+
+{% if agendas|length %}
+<section class="agenda">
+    <h1>Les évènements à venir :</h1>
+    {% for post in agendas %}
+        <article class="post">
+            <a href="{{ path('post_view', { 'category': 'agenda', 'slug': post.slug }) }}">
+                <h2>
+                    <i class="genericon genericon-day big"></i>&nbsp;
+                    {{ post.date|format_date('long') }}
+                    -
+                    {{ post.titre }}
+                </h2>
+            </a>
+            <p>{{ post.html|raw }}</p>
+        </article>
+    {% else %}
+    <p>Aucun évènement programmé.</p>
+    {% endfor %}
+</section>
+{% endif %}
+{% endblock %}

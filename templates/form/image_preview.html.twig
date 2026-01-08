@@ -1,0 +1,11 @@
+{% block image_preview_row %}
+    {% for child in form.children|filter(child => not child.rendered) %}
+        <div class="form-group">
+            {{ form_label(child) }}
+            <img src="{{image_url}}">
+            {{ form_widget(child) }}
+            {{ form_help(child) }}
+            {{ form_errors(child) }}
+        </div>
+    {% endfor %}
+{% endblock %}

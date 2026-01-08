@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ is_edit ? 'Edite le coup de cœur - ' ~ slug : 'Nouveau coup de cœur' }}
+{% endblock %}
+
+{% block content %}
+<section>
+    <h1>{{ is_edit ? 'Edite le coup de cœur' : 'Nouveau coup de cœur' }}</h1>
+
+    {% if ean %}
+    <img src="https://products-images.di-static.com/image/livre/{{ean}}-70x95-1.jpg"
+        data-src-small="https://products-images.di-static.com/image/livre/{{ean}}-70x95-1.jpg"
+        data-src-big="https://products-images.di-static.com/image/livre/{{ean}}-475x500-1.jpg"
+    >
+    <img src="https://products-images.di-static.com/image/livre/{{ean}}_Q-70x95-1.jpg"
+        data-src-small="https://products-images.di-static.com/image/livre/{{ean}}_Q-70x95-1.jpg"
+        data-src-big="https://products-images.di-static.com/image/livre/{{ean}}_Q-475x500-1.jpg"
+    >
+    {% endif %}
+    
+    {% if is_edit and category is not null and slug is not null %}
+    <a href="{{path('coups-de-coeur_view', { category, slug })}}">Voir</a>
+    {% endif %}
+
+    {% for msg in app.flashes('success') %}
+        <div style="color: green;">{{ msg }}</div>
+    {% endfor %}
+{# 
+    {% if errors|length > 0 %}
+        <ul style="color: red;">
+            {% for error in errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+ #}
+    {% if form %}
+    {{ form(form) }}
+    {% endif %}
+
+    <hr/>
+    <div id="divPreview"></div>
+</section>
+{% endblock %}
+
+{% block endscripts %}
+<script type="module">import "post";</script>
+{% endblock %}

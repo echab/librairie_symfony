@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Agenda{% endblock %}
+
+{% block content %}
+<section class="agenda">
+    {% for post in agendas %}
+        <article class="post">
+            <a href="{{ path('post_view', { 'category': 'agenda', 'slug': post.slug }) }}">
+                <h2>
+                    <i class="genericon genericon-day big"></i>&nbsp;
+                    {{ post.date|format_date('long') }}
+                    -
+                    {{ post.titre }}
+                </h2>
+            </a>
+            <p>{{ post.html|raw }}</p>
+        </article>
+    {% else %}
+        <p>Aucun événement programmé.</p>
+    {% endfor %}
+</section>
+{% endblock %}

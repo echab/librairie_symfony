@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ post.titre }}{% endblock %}
+
+{% block content %}
+    <article class="post">
+        <h1>{{ post.titre }}</h1>
+        <div>{{ post.html|raw }}</div>
+
+        <p class="info">
+            <i>Publié le {{ post.date|format_date('long') }} par {{ post.libraire }}.</i>
+            <a href="{{ path('post_edit', {'slug': post.slug, 'category': post.category }) }}">✎Modifier</a>
+        </p>
+    </article>
+{% endblock %}

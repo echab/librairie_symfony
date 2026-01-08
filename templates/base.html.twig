@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %} - Librairie - Les passantes</title>
+    {# <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'><text y='1.2em' font-size='96'>🔴</text><text y='1.3em' x='0.2em' font-size='76' fill='%23fff'>lP</text></svg>"> #}
+    <link rel="icon" href="{{ asset('images/logo1-32x32.png') }}" sizes="32x32">
+    <link rel="icon" href="{{ asset('images/logo1-192x192.png') }}" sizes="192x192">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo1-180x180.png') }}">
+    {% block stylesheets %}
+    <meta name="color-scheme" content="light dark" />
+    {% endblock %}
+    {% block javascripts %}
+        {% block importmap %}
+            {{ importmap('app') }}
+        {% endblock %}
+        {% block scripts %}{% endblock %}
+    {% endblock %}
+</head>
+<body>
+    {% include '_header.html' %}
+    {% block body %}
+        <div class="page">
+            <div class="contenu">
+            {% block content %}
+            {% endblock %}
+            </div>
+            {% block aside %}
+                <aside>
+                    <div id="panier"></div>
+                    {% include '_widget_soutiens.html' %}
+                    {% include '_widget_rayons.html' %}
+                </aside>
+            {% endblock %}
+        </div>
+    {% endblock %}
+    {% include '_footer.html' %}
+    <script type="module">
+        import { render } from "solid-js/web";
+        import html from "solid-js/html";
+        import { Panier } from 'panier';
+        const divPanier = document.getElementById('panier');
+        if (divPanier) {
+            const routes = {
+                livres: "{{ path('livres')|escape('js') }}",
+                contact: "{{ path('contact')|escape('js') }}",
+            };
+            render(() => html`<${Panier} routes=${routes} />`, divPanier);
+        }
+    </script>
+    {% block endscripts %}{% endblock %}
+</body>
+</html>

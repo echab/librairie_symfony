@@ -1,0 +1,12 @@
+{%- block captcha_widget -%}
+    {%- set type = type|default('password') -%}
+    {%- set attr = attr|merge({style: 'text-transform: uppercase;'}) -%}
+    <div>
+        <label for="{{ id }}">{{ captcha_question }}</label>
+        <input type="{{ type }}"
+            {{ block('widget_attributes') }}
+            {% if value is not empty %}value="{{ value }}" {% endif %}
+            onfocus="javascript:this.type='text';"
+        >
+    </div>
+{%- endblock captcha_widget -%}

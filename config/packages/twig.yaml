@@ -1,0 +1,15 @@
+twig:
+    file_name_pattern: '*.twig'
+
+    form_themes: 
+        - 'form/captcha.html.twig'
+        # - 'form_div_layout.html.twig'
+        # - 'form/image_preview.html.twig'
+
+    globals:
+        # TODO use the '%env(IMAGES_PATH)%'' variable
+        images_path: '/uploads/images/'
+
+when@test:
+    twig:
+        strict_variables: true

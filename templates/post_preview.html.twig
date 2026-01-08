@@ -1,0 +1,14 @@
+{% extends 'iframe.html.twig' %}
+
+{% block title %}Aperçu - {{ post.titre }}{% endblock %}
+
+{% block body %}
+    <article class="post">
+        <h1>{{ post.titre }}</h1>
+        <div>{{ post.html|raw }}</div>
+
+        <p class="info">
+            <i>Aperçu le {{ post.date|format_date('long') }} par {{ post.libraire }}.</i>
+        </p>
+    </article>
+{% endblock %}

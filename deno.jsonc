@@ -1,0 +1,31 @@
+{
+    "tasks": {
+        "a-dev:start ▶": "symfony server:start --no-tls --port=8001",
+        "a-dev:stop ⏹": "symfony server:stop",
+
+        "b-dev:install": "composer install",
+        "b-prod:build 📦": "composer build-prod", // TODO for DEV, delete generated files in public/assets
+        "b-prod:env": "composer dump-env prod",
+        "b-prod:compile-asset": "php bin/console asset-map:compile",
+        "b-prod:install": "composer --no-plugins --no-interaction install --no-scripts --no-dev --optimize-autoloader",
+        // "b-prod:install-raw": "composer install --no-dev",
+        "b-zip-sources": "composer zip-sources",
+
+        "user-admin": "php bin/console security:hash-password",
+
+        "config-about": "php bin/console about",
+        "config-recipes": "composer recipes",
+
+        "debug-router": "php bin/console debug:router",
+        "debug-lint-twig": "php bin/console lint:twig",
+        "debug-logs": "symfony server:log",
+        "debug-autowiring": "php bin/console debug:autowiring",
+        "debug-config-parameters": "php bin/console debug:container --parameters",
+        "debug-cache:clear": "php bin/console cache:clear --env=dev",
+        "debug-cache:warmup": "php bin/console cache:warmup --env=dev",
+        "debug-firewall": "php bin/console debug:firewall main"
+    },
+    "imports": {
+        "solid-js": "npm:solid-js@^1.9.9"
+    }
+}

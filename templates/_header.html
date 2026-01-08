@@ -1,0 +1,52 @@
+<header class="site-header" role="banner">
+    <h1 class="banner">Librairie - Les passantes</h1>
+    <nav class="main-navigation" role="navigation">
+        <button class="tablet-none desktop-none" aria-controls="primary-menu">Menu</button>
+
+        <a class="screen-reader-text skip-link" aria-label="Aller au contenu principal" href="#content">Aller au contenu principal</a>
+        {% set curPath = app.request.attributes.get('_route') %}
+        <menu id="primary-menu" class="phone-collapsed tablet-expanded desktop-expanded">
+            <li><a
+                 href="{{ path('home') }}" 
+                 aria-current="{{ (curPath == 'home')|json_encode }}" 
+                 >Accueil</a></li>
+            <li><a
+                 target="_blank" rel="noopener"
+                 href="https://www.librairies-occitanie.com/"
+                 title="Commandez sur Librairies Occitanie"
+                 >Commandez</a></li>
+            <li><a
+                 href="{{ path('livres') }}" 
+                 aria-current="{{ (curPath == 'livres')|json_encode }}"
+                 title="Les livres en stock de la librairie"
+                 >Nos livres en stock</a></li>
+            <li><a
+                 href="{{ path('agenda') }}" 
+                 aria-current="{{ (curPath == 'agenda')|json_encode }}"
+                 >Agenda</a></li>
+            <li><a
+                 href="{{ path('coups-de-coeur') }}" 
+                 aria-current="{{ (curPath == 'coups-de-coeur')|json_encode }}"
+                 >Coups de cœur</a></li>
+            <li><a
+                 href="{{ path('photos') }}" 
+                 aria-current="{{ (curPath == 'photos')|json_encode }}"
+                 >Photos</a></li>
+            <li><a
+                 href="{{ path('contact') }}" 
+                 aria-current="{{ (curPath == 'contact')|json_encode }}"
+                 >Contact</a></li>
+            <li><a
+                 target="_blank" rel="noopener"
+                 href="https://sibforms.com/serve/MUIEAOBP_vGUUcLOoBR6VE-LZ-mJAyvqXLjst0SJeV9_xW7f-VRwxszl3VC2Zhghl_Z-AfdTvIQKvLdsx-QIy1ZZy6umTBtdxBYMOkJFMFqIrwJtR-K6aMfdLqMssVGszqESeBHvOB6lZBsZQVE2IlIgdkttX_W1voi0HL0qfiMe8uQ_MNewI_kUz_nwgUwZ0SSkpMWZhxMSFrQT"
+                 title="Inscription à notre newsletter"
+                 >Newsletter</a></li>
+        </menu>
+        <!--
+        <form role="search" method="get" class="search-form" action="/">
+            <input type="search" class="search-field" placeholder="Rechercher…" value="" name="s" />
+            <input type="submit" class="search-submit" value="Rechercher" />
+        </form>
+        -->
+    </nav>
+</header>

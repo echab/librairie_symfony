@@ -1,0 +1,42 @@
+<footer class="site-footer" role="contentinfo">
+  <aside>
+    <h3>Horaires</h3>
+    <p datetime="Mo 14:30-19:00">le lundi de 14h30 à 19h</p>
+    <p><span datetime="Tu,We,Th,Fr,Sa 10:00-13:00">du mardi au samedi de 10h à 13h</span>
+      <span datetime="Tu,We,Th,Fr,Sa 14:00-19:00">et de 14h à 19h</span>
+    </p>
+  </aside>
+  <aside>
+    <div itemscope="" itemtype="http://schema.org/LocalBusiness">
+      <h3>Adresse</h3>
+      <b itemprop="name">Librairie Les passantes</b>
+      <p itemprop="address" itemscope="" itemtype="http://schema.org/PostalAddress">
+        <span itemprop="streetAddress">43 avenue de Toulouse</span><br>
+        <span itemprop="postalCode">31240</span>
+        <span itemprop="addressLocality">L'Union</span>
+      </p>
+
+      <p itemscope="" itemtype="http://schema.org/Place">
+        <a itemprop="geo" itemscope="" itemtype="http://schema.org/GeoCoordinates"
+          href="https://www.google.fr/maps/place/Librairie+Les+passantes/@43.6561196,1.4760345,17z/data=!3m1!4b1!4m2!3m1!1s0x12aea31cb9f5155d:0x529a0574981d6fdf"
+          target="_blank" rel="noopener">GPS&nbsp;:
+          <span itemprop="latitude" content="43.6561">43.6561 N</span>,
+          <span itemprop="longitude" content="1.4775">1.4775 W</span>
+        </a>
+      </p>
+    </div>
+  </aside>
+
+  {% include '_widget_contact.html' %}
+
+  {% if is_granted('IS_AUTHENTICATED') %}
+  <aside>
+    <p><a href="{{ path('app_logout') }}" class="genericon genericon-lock">Déconnexion</a></p>
+    <p><a href="{{ path('post_edit', { category: 'a-la-une' }) }}"><i class="genericon genericon-edit"></i>Nouvelle une</a></p>
+    <p><a href="{{ path('post_edit', { category: 'info' }) }}"><i class="genericon genericon-edit"></i>Nouvelle info</a></p>
+    <p><a href="{{ path('post_edit', { category: 'agenda' }) }}"><i class="genericon genericon-edit"></i>Nouvel évènement</a></p>
+  </aside>
+  {% else %}    
+      <a href="{{ path('app_login') }}" class="genericon genericon-lock" title="Administration">&nbsp;</a>
+  {% endif %}    
+</footer>

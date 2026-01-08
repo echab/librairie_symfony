@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="captcha_label">
+                <source>captcha_label</source>
+                <target>Securité</target>
+            </trans-unit>
+            <trans-unit id="captcha_sentence">
+                <source>captcha_sentence</source>
+                <target>Quelle est la {index} {letter} du mot {word} ?</target>
+            </trans-unit>
+            <trans-unit id="captcha_addition">
+                <source>captcha_addition</source>
+                <target>Quelle est la somme de {first} + {second} ?</target>
+            </trans-unit>
+            <trans-unit id="captcha_letter">
+                <source>captcha_letter</source>
+                <target>lettre</target>
+            </trans-unit>
+            <trans-unit id="captcha_consonant">
+                <source>captcha_consonant</source>
+                <target>consonne</target>
+            </trans-unit>
+            <trans-unit id="captcha_vowel">
+                <source>captcha_vowel</source>
+                <target>voyelle</target>
+            </trans-unit>
+            <trans-unit id="captcha_first">
+                <source>captcha_first</source>
+                <target>première</target>
+            </trans-unit>
+            <trans-unit id="captcha_second">
+                <source>captcha_second</source>
+                <target>deuxième</target>
+            </trans-unit>
+            <trans-unit id="captcha_third">
+                <source>captcha_third</source>
+                <target>troisième</target>
+            </trans-unit>
+            <trans-unit id="captcha_fourth">
+                <source>captcha_fourth</source>
+                <target>quatrième</target>
+            </trans-unit>
+            <trans-unit id="captcha_fifth">
+                <source>captcha_fifth</source>
+                <target>cinquième</target>
+            </trans-unit>
+            <trans-unit id="captcha_last">
+                <source>captcha_last</source>
+                <target>dernière</target>
+            </trans-unit>
+            <trans-unit id="captcha_invalid">
+                <source>captcha_invalid</source>
+                <target>Réponse incorrecte.</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

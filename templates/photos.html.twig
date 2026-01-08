@@ -1,0 +1,27 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Photos{% endblock %}
+
+{% block content %}
+<section class="photos">
+    <h1>Galerie photos</h1>
+    {% for post in photos %}
+        <article class="post">
+            <h1>{{ post.titre }}</h1>
+            <div>{{ post.html|raw }}</div>
+
+            <p class="info">
+                <i>Publié le {{ post.date|format_date('long') }} par {{ post.libraire }}.</i>
+                <a href="{{ path('post_edit', {'slug': post.slug, 'category': post.category }) }}">✎Modifier</a>
+            </p>
+        </article>
+    {% endfor %}
+</section>
+{% endblock %}
+
+{% block endscripts %}
+<script type="module">
+import { md_gallery } from 'gallery';
+md_gallery({ list_selector: '.post ul'});
+</script>
+{% endblock %}

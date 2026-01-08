@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin{% endblock %}
+
+{% block body %}
+<section>
+  <h1>Admin</h1>
+
+  <a href="{{ path('adminUser')}}">Changer un mot de passe</a>
+
+  <h2>Sauvegardes</h2>
+  <div style="display: flex; gap: 2em;">
+    {{ form(formBackup) }}
+  </div>
+
+  <h2>Restauration</h2>
+  <div style="display: flex; gap: 2em;">
+    {{ form(formUpload) }}
+
+    {{ form(formUnzip, { attr: { class: 'inlineZ' } }) }}
+  </div>
+
+  {% for label, messages in app.flashes %}
+      {% for message in messages %}
+          <div class="flash-{{ label }}">{{ message }}</div>
+      {% endfor %}
+  {% endfor %}
+
+</section>
+{% endblock %}

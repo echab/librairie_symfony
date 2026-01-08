@@ -1,0 +1,47 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "local install",
+            "icon": { "id": "arrow-circle-down" },
+            "type": "shell",
+            "command": "composer install",
+            "problemMatcher": []
+        },
+        {
+            "label": "local start",
+            "icon": { "id": "play-circle" },
+            "type": "shell",
+            "command": "symfony server:start --no-tls --port=8001",
+            "problemMatcher": []            
+        },
+        {
+            "label": "localhost:8001",
+            "icon": { "id": "browser" },
+            "type": "shell",
+            "command": "start http://localhost:8001",
+            "problemMatcher": []            
+        },
+        {
+            "label": "local stop",
+            "icon": { "id": "stop-circle" },
+            "type": "shell",
+            // "command": "workbench.action.terminal.kill",
+            "command": "symfony server:stop && for %G In (php.exe php-cgi.exe symfony.exe) do taskkill /FI \"IMAGENAME eq %~G\" /T /F",
+            "problemMatcher": []
+        },
+        {
+            "label": "Zip site",
+            "icon": { "id": "package" },
+            "type": "shell",
+            "command": "composer run-script build-prod",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}

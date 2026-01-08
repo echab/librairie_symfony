@@ -1,0 +1,33 @@
+{% extends 'iframe.html.twig' %}
+
+{% block title %}Images{% endblock %}
+
+{% block body %}
+    <h2>Images</h2>
+
+    {% for msg in app.flashes('success') %}
+        <div style="color: green;">{{ msg }}</div>
+    {% endfor %}
+
+    <div id="gallery" style="display:flex; align-items: center; flex-wrap: wrap; gap:.5em;">
+        <div>Cliquez sur une vignette pour insérer l'image dans le texte:</div>
+        {% for img in images %}
+            <img src="{{images_path ~ img.slug}}"
+                alt="{{img.slug}}"
+                title="{{img.slug}}&#010;Date: {{img.date|format_date('long')}}&#010;Dimensions: {{img.width ~ ' x ' ~img.height}}&#010;Taille: {{img.fileSize}} octets"
+                width="100"
+                style="cursor: pointer;"
+            />
+        {% endfor %}
+    </div>
+
+    {% if formImage %}
+    {{ form(formImage) }}
+    {% endif %}
+
+    <a href="{{ path('post_clear_cache_image') }}" title="Vider le cache">↻</a>
+{% endblock %}
+
+{% block endscripts %}
+<script type="module">import 'image';</script>
+{% endblock %}

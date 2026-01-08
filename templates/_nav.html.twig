@@ -1,0 +1,17 @@
+{% macro pages(nPage, currentPage) %}
+    {% if nPage > 1 %}
+        {% set pages = range( max(1, min(currentPage - 5, nPage - 10)), min(max(currentPage + 5, 10), nPage) ) %}
+        {% if 1 not in pages %}{% set pages = [1]|merge(pages) %}{% endif %}
+        {% if nPage not in pages %}{% set pages = pages|merge([nPage]) %}{% endif %}
+        <div style="display:flex; gap:1em; margin: 1em;">
+        Pages: 
+        {% for p in pages %}
+            {% if p == currentPage %}
+                <b>{{p}}</b>
+            {% else %}
+                <a href="?{{app.request.query|merge({ 'page': p == 1 ? null : p})|url_encode }}">{{p}}</a>
+            {% endif %}
+        {% endfor %}
+        </div>
+    {% endif %}
+{% endmacro %}

@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos livres{% endblock %}
+
+{% block content %}
+<section>
+    <h1>Nos livres</h1>
+
+    <div id="livres"></div>
+</section>
+{% endblock %}
+
+{% block endscripts %}
+<script type="module">
+    import { render } from "solid-js/web";
+    import html from "solid-js/html";
+    import { Stock } from 'stock';
+    render(Stock, document.getElementById('livres'));
+</script>
+{% endblock %}

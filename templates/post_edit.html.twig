@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ is_edit ? 'Edite le post - ' ~ slug : 'Nouveau post' }}
+{% endblock %}
+
+{% block content %}
+<section>
+    <h1>{{ is_edit ? 'Edite le post' : 'Nouveau post' }} {{category}}</h1>
+
+    {% for msg in app.flashes('success') %}
+        <div style="color: green;">{{ msg }}</div>
+    {% endfor %}
+
+    {% if form %}
+    {{ form(form) }}
+    {% endif %}
+  
+    <hr/>
+    <div id="divPreview"></div>
+</section>
+{% endblock %}
+
+{% block aside %}
+<iframe name="image_gallery" src="{{ path('post_images') }}" style="border:none;"></iframe>
+{% endblock %}
+
+{% block endscripts %}
+<script type="module">import "post";</script>
+{% endblock %}

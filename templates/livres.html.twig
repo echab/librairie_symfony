@@ -1,0 +1,118 @@
+{% extends 'base.html.twig' %}
+
+{% import "_nav.html.twig" as nav %}
+
+{% block title %}Nos livres {{rayonObj ? rayonObj.titre : ''}}{% endblock %}
+
+{% block content %}
+<section>
+    <h1>Nos livres</h1>
+
+    <form method="get" role="search" class="inline">
+        <p>
+            <label>
+            Chercher: <input type="search" name="mot" placeholder="un titre, un auteur, ..." value="{{ mot }}" />
+            </label>
+            <button type="submit">
+                <i class="genericon genericon-search big"></i>
+            </button>
+        </p>
+        <p>
+            <label>dans le rayon:
+                <select name='rayon' ZZZonChange="this.form.submit()">
+                    <option value="0">tous ({{ countByRayon.0 }})</option>
+                    {% for rayon1 in rayons %}
+                        <optgroup label="{{rayon1.label}} {{ countByRayon[rayon1.code] is defined ? '(' ~ countByRayon[rayon1.code] ~ ')' : '' }}">
+                        {% for rayon2 in rayon1.sousRayons %}
+                            <option value="{{rayon2.code}}" {{ rayon is same as rayon2.code ? ' selected' }}>
+                                {{rayon2.label}} {{ countByRayon[rayon2.code] is defined ? '(' ~ countByRayon[rayon2.code] ~ ')' : '' }}
+                            </option>
+                        {% endfor %}
+                        </optgroup>
+                    {% endfor %}
+                </select>
+            </label>
+        </p>
+        
+        <tab class="order">
+            trié par :
+            <a href="?{{ app.request.query|merge({tri: 't'})|url_encode }}" {{tri is same as 't' ? ' aria-selected="true"' : ''}}>Titre</a>
+            <a href="?{{ app.request.query|merge({tri: 'a'})|url_encode }}" {{tri is same as 'a' ? ' aria-selected="true"' : ''}}>Auteur</a>
+            <a href="?{{ app.request.query|merge({tri: 'd'})|url_encode }}" {{tri is same as 'd' ? ' aria-selected="true"' : ''}}>Date de parution</a>
+            <a href="?{{ app.request.query|merge({tri: 'p'})|url_encode }}" {{tri is same as 'p' ? ' aria-selected="true"' : ''}}>Prix</a>
+        </tab>
+       
+        <input type="hidden" name="page" value="1" />
+    </form>
+
+    {% if ageStock > 24 %}
+    <p>Date du stock : {{stockDate|format_datetime('long', 'short')}}, il y a {{(ageStock / 24)|round(0, 'ceil')}} jours.</p>
+    {% endif %}
+
+    {% if page != 1 %}
+    {{ nav.pages(nPage, page) }}
+    {% endif %}
+
+    {% for livre in livres %}
+        {% if posAutres is same as loop.index0 %}
+            <p><i>Trouvé dans les autres rayons:</i></p>
+        {% endif %}
+        <article class="livre" aria-selected="false">
+            <img alt="{{ livre.titre }}" loading="lazy"
+                src="https://products-images.di-static.com/image/livre/{{livre.ean}}-70x95-1.jpg"
+                data-src-small="https://products-images.di-static.com/image/livre/{{livre.ean}}-70x95-1.jpg"
+                data-src-big="https://products-images.di-static.com/image/livre/{{livre.ean}}-475x500-1.jpg"
+            >
+            <img alt="4e de couverture" class="ifselected" loading="lazy"
+                src="https://products-images.di-static.com/image/livre/{{livre.ean}}_Q-70x95-1.jpg"
+                data-src-small="https://products-images.di-static.com/image/livre/{{livre.ean}}_Q-70x95-1.jpg"
+                data-src-big="https://products-images.di-static.com/image/livre/{{livre.ean}}_Q-475x500-1.jpg"
+            >
+            <div class="desc">
+                <h2>
+                    {% if coeurByEan[livre.ean] is defined %}
+                        {% set coeur = coeurByEan[livre.ean] %}
+                        <a title="Coup de cœur des libraires"
+                            href="{{ path('coups-de-coeur_view', { category: coeur.category, slug: coeur.slug }) }}"
+                        >❤️&nbsp;</a>
+                    {% endif %}
+                    {% if livre.parution > recentDate %}
+                        <span class="new" title="Paru il y a {{date().diff(livre.parution)|date}} semaines"></span>
+                    {% endif %}
+                    {{ livre.titre|highlight(mots)|raw|sanitize_html }}
+                </h2>
+                {% if livre.auteur %}
+                    <h3>{{ livre.auteur|highlight(mots)|raw|sanitize_html }}</h3>
+                {% endif %}
+                <div class="detail">
+                    <p class="info">
+                        <span>éditeur: {{livre.editeur}}</span>
+                        <span>collection: {{livre.collection}}</span>
+                        <span>date de parution: {{livre.parution|format_date('long')}}</span>
+                        <span>prix:&nbsp;{{livre.prix|number_format(2)}}€</span>
+                        <span>rayon <a href="?{{ app.request.query|merge({rayon: livre.rayon})|url_encode }}">{{ rayonByCode[livre.rayon].titre }}</a></span>
+                        <span class="ifselected">code: {{ livre.ean }}</span>
+                    </p>
+                    {% if livre.ean is defined %}
+                        <button class="addPanier"
+                            data-ean="{{livre.ean}}"
+                            data-titre="{{livre.titre}}"
+                            data-auteur="{{livre.auteur ?? ''}}"
+                            data-prix="{{livre.prix ?? 0}}"
+                            data-rayon="{{livre.rayon ?? ''}}"
+                        >Ajouter au panier</button>
+                    {% endif %}
+                </div>
+                <p>{{ livre.resume }}</p>
+            </div>
+        </article>
+    {% endfor %}
+
+    {{ nav.pages(nPage, page) }}
+
+    {% if stockDate %}
+    <p>Date du stock : {{stockDate|format_datetime('long', 'short')}}</p>
+    {% endif %}
+
+</section>
+{% endblock %}

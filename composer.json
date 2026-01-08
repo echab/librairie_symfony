@@ -1,0 +1,157 @@
+{
+    "type": "project",
+    "license": "proprietary",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.1",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "league/commonmark": "^2.7",
+        "phpdocumentor/reflection-docblock": "^5.6",
+        "phpstan/phpdoc-parser": "^2.1",
+        "symfony/asset": "6.4.*",
+        "symfony/asset-mapper": "6.4.*",
+        "symfony/console": "6.4.*",
+        "symfony/debug-bundle": "6.4.*",
+        "symfony/dotenv": "6.4.*",
+        "symfony/expression-language": "6.4.*",
+        "symfony/flex": "^2",
+        "symfony/form": "6.4.*",
+        "symfony/framework-bundle": "6.4.*",
+        "symfony/html-sanitizer": "6.4.*",
+        "symfony/http-client": "6.4.*",
+        "symfony/intl": "6.4.*",
+        "symfony/mailer": "6.4.*",
+        "symfony/messenger": "6.4.*",
+        "symfony/mime": "6.4.*",
+        "symfony/monolog-bundle": "^3.0",
+        "symfony/notifier": "6.4.*",
+        "symfony/process": "6.4.*",
+        "symfony/property-access": "6.4.*",
+        "symfony/property-info": "6.4.*",
+        "symfony/runtime": "6.4.*",
+        "symfony/security-bundle": "6.4.*",
+        "symfony/serializer": "6.4.*",
+        "symfony/string": "6.4.*",
+        "symfony/translation": "6.4.*",
+        "symfony/twig-bundle": "6.4.*",
+        "symfony/validator": "6.4.*",
+        "symfony/web-link": "6.4.*",
+        "symfony/yaml": "6.4.*",
+        "twig/extra-bundle": "^3.21",
+        "twig/intl-extra": "^3.21",
+        "twig/twig": "^2.12|^3.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    },
+    "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php74": "*",
+        "symfony/polyfill-php80": "*",
+        "symfony/polyfill-php81": "*"
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "importmap:install": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ],
+        "zip-sources": [
+            "@composer --no-plugins --no-interaction archive --format=zip --dir=backup"
+        ],
+        "build-prod": [
+            "php bin/console asset-map:compile",
+            "@composer --no-plugins --no-interaction install --no-scripts --no-dev --optimize-autoloader",
+            "php ./vendor/symfony/intl/Resources/bin/compress",
+            "@composer --no-plugins --no-interaction archive --format=zip --dir=backup",
+            "php -r \"array_map('unlink', array_merge(glob('public/assets/*.*'), glob('public/assets/styles/*.*')));\"",
+            "@composer install"
+        ]
+    },
+    "archive": {
+        "name": "librairie_symfony_app",
+        "exclude": [
+            "/assets", "/public/uploads", "!/public/uploads/*/README.md", "/public/install.php*", "/posts*", "!/posts/README*",
+            "/public/.htaccess", "/public/index.php",
+            "/config/packages/web_profiler.yaml", "/config/routes/web_profiler.yaml",
+            "/vendor",
+            "!/vendor/composer/autoload*.php",
+            "/.env*", "/deno.jsonc", "/deno.lock", "/install.php*", "*.zip", "/backup", "/README.md",
+            "/var", "/tests", "phpunit*", "*.dist", ".github", ".gitignore", "/.vscode"
+        ]
+    },
+    "archive_Sources": {
+        "name": "librairie_symfony_sources",
+        "exclude": [
+            "/**", "/.*", "!/.vscode", "!/bin/console", "!/bin/install_outils.cmd", "!/config", "!/assets", "!/src", "!/templates", "!/tests", "!/translations",
+            "!/posts/README*", "!/public/index.php", "!/public/favicon.ico", "!/public/images", "!/public/uploads/*/README.md", "!/backup/README.md", 
+            "!/.env", "!/.gitignore", "!/composer.json", "!/composer.lock", "!/importmap.php", "!/index.php", "!/README.md"
+        ]
+    },
+    "archive_V": {
+        "name": "librairie_symfony_vendor",
+        "exclude": [
+            "/**", "/.*", 
+            "!/vendor",
+            "/vendor/composer/autoload*.php",
+            "/vendor/symfony/intl/Resources/data",
+            "!/vendor/symfony/intl/Resources/data/currencies/meta.php", "!/vendor/symfony/intl/Resources/data/currencies/fr.php", "!/vendor/symfony/intl/Resources/data/currencies/fr.php.gz",
+            "!/vendor/symfony/intl/Resources/data/languages/meta.php", "!/vendor/symfony/intl/Resources/data/languages/fr.php", "!/vendor/symfony/intl/Resources/data/languages/fr.php.gz",
+            "!/vendor/symfony/intl/Resources/data/locales/meta.php", "!/vendor/symfony/intl/Resources/data/locales/fr.php", "!/vendor/symfony/intl/Resources/data/locales/fr.php.gz",
+            "!/vendor/symfony/intl/Resources/data/regions/meta.php", "!/vendor/symfony/intl/Resources/data/regions/fr.php", "!/vendor/symfony/intl/Resources/data/regions/fr.php.gz",
+            "!/vendor/symfony/intl/Resources/data/scripts/meta.php", "!/vendor/symfony/intl/Resources/data/scripts/fr.php", "!/vendor/symfony/intl/Resources/data/scripts/fr.php.gz",
+            "!/vendor/symfony/intl/Resources/data/timezones/meta.php", "!/vendor/symfony/intl/Resources/data/timezones/fr.php", "!/vendor/symfony/intl/Resources/data/timezones/fr.php.gz",
+            "!/vendor/symfony/intl/Resources/data/transliterator/emoji/emoji-fr.php", "!/vendor/symfony/intl/Resources/data/transliterator/emoji/emoji-fr.php.gz",
+            "/vendor/symfony/validator/Resources/translations",
+            "!/vendor/symfony/validator/Resources/translations/*fr.xlf"
+        ]
+    },
+    "scripts-descriptions": {
+        "build-prod": "Build project artifact."
+    },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": false,
+            "require": "6.4.*"
+        },
+        "public-dir": "public"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "symfony/browser-kit": "6.4.*",
+        "symfony/css-selector": "6.4.*",
+        "symfony/maker-bundle": "^1.0",
+        "symfony/phpunit-bridge": "^7.3",
+        "symfony/stopwatch": "6.4.*",
+        "symfony/web-profiler-bundle": "6.4.*"
+    }
+}

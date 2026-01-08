@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Logging out...{% endblock %}
+
+{% block scripts %}
+<script>
+    // Redirect to homepage after clearing credentials
+    setTimeout(function() {
+        window.location.href = "{{redirect}}";
+    }, 1000);
+</script>
+{% endblock %}
+
+{% block content %}
+<section>
+<h1>Logging out...</h1>
+<p>If you are not redirected automatically, <a href="{{redirect}}">click here</a>.</p>
+</section>
+{% endblock %}

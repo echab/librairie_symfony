@@ -1,0 +1,44 @@
+{
+  "version": "5",
+  "specifiers": {
+    "npm:solid-js@^1.9.9": "1.9.9_seroval@1.3.2"
+  },
+  "npm": {
+    "csstype@3.1.3": {
+      "integrity": "sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==",
+      "tarball": "https://artifactory.2b82.aws.cloud.airbus.corp:443/artifactory/api/npm/r-airbus-npm-virtual/csstype/-/csstype-3.1.3.tgz"
+    },
+    "seroval-plugins@1.3.2_seroval@1.3.2": {
+      "integrity": "sha512-0QvCV2lM3aj/U3YozDiVwx9zpH0q8A60CTWIv4Jszj/givcudPb48B+rkU5D51NJ0pTpweGMttHjboPa9/zoIQ==",
+      "dependencies": [
+        "seroval"
+      ],
+      "tarball": "https://artifactory.2b82.aws.cloud.airbus.corp:443/artifactory/api/npm/r-airbus-npm-virtual/seroval-plugins/-/seroval-plugins-1.3.2.tgz"
+    },
+    "seroval@1.3.2": {
+      "integrity": "sha512-RbcPH1n5cfwKrru7v7+zrZvjLurgHhGyso3HTyGtRivGWgYjbOmGuivCQaORNELjNONoK35nj28EoWul9sb1zQ==",
+      "tarball": "https://artifactory.2b82.aws.cloud.airbus.corp:443/artifactory/api/npm/r-airbus-npm-virtual/seroval/-/seroval-1.3.2.tgz"
+    },
+    "solid-js@1.9.9_seroval@1.3.2": {
+      "integrity": "sha512-A0ZBPJQldAeGCTW0YRYJmt7RCeh5rbFfPZ2aOttgYnctHE7HgKeHCBB/PVc2P7eOfmNXqMFFFoYYdm3S4dcbkA==",
+      "dependencies": [
+        "csstype",
+        "seroval",
+        "seroval-plugins"
+      ],
+      "tarball": "https://artifactory.2b82.aws.cloud.airbus.corp:443/artifactory/api/npm/r-airbus-npm-virtual/solid-js/-/solid-js-1.9.9.tgz"
+    }
+  },
+  "redirects": {
+    "https://esm.sh/seroval@^0.10.4?target=denonext": "https://esm.sh/seroval@0.10.4?target=denonext"
+  },
+  "remote": {
+    "https://esm.sh/seroval@0.10.4/denonext/seroval.mjs": "2f560b4f4b98eb7ca9f658d13914d25847d06615ec65913ddd62c8c1e4399c9e",
+    "https://esm.sh/seroval@0.10.4?target=denonext": "86ddc5fc35f653d0ef0d6f5b73700650fb6a4a1d73c829135eef7b35b1986bf6"
+  },
+  "workspace": {
+    "dependencies": [
+      "npm:solid-js@^1.9.9"
+    ]
+  }
+}
