@@ -39,20 +39,21 @@ class AdminController extends AbstractController
     ): Response {
 
         $backupDir = "$this->projectDir/backup";
+        $oldDate = date_create('2016-01-01');
 
-        $formBackup = $this->createForm(AdminBackupType::class);
+        $formBackup = $this->createForm(AdminBackupType::class, ['fromDate'=>$oldDate]);
         $formBackup->handleRequest($request);
         if ($formBackup->isSubmitted() && $formBackup->isValid()) {
-            $fromDate = $formBackup->has('fromDate') ? $formBackup->get('fromDate')->getData() : date_create('2016-01-01');
+            $fromDate = $formBackup->has('fromDate') ? $formBackup->get('fromDate')->getData() ?? $oldDate : $oldDate;
             $toDate = date_create();
-            $zipFile = "librairie-posts-" . $fromDate->format('Y-m-d') . "-to-" . $toDate->format('Y-m-d') . ".zip";
+            $zipFile = "librairie-posts-" . $fromDate->format('Y-m-d') . "-to-" . $toDate->format('Y-m-d-H-i') . ".zip";
 
             $this->addFlash('info', "Zipping into $zipFile");
 
             $gen = $this->service->zip(
                 "$backupDir/$zipFile",
                 $this->projectDir,
-                "posts/*/*.md",
+                ["posts/*/*.md", "public/uploads/images/*/*.{png,jpg,jpeg,gif}"],
                 $fromDate
             );
 
@@ -78,9 +79,11 @@ class AdminController extends AbstractController
             $this->addFlash('success', "File loaded: $zipFile");
         }
 
-        $zipFiles = glob("$backupDir/librairie*.zip");
-        $zipFiles = array_map(fn($f) => basename($f), $zipFiles); // TODO show zip dates
-        $formUnzip = $this->createForm(AdminUnzipType::class, array_combine($zipFiles, $zipFiles));
+        $zipFiles = glob("$backupDir/librairie*.zip", GLOB_NOSORT);
+        usort($zipFiles, fn($a, $b) => filemtime($b) - filemtime($a));
+        $zipDates = array_map(fn($f) => date('Y-m-d', filemtime($f)) .' : '. basename($f), $zipFiles);
+        $zipFiles = array_map(basename(...), $zipFiles);
+        $formUnzip = $this->createForm(AdminUnzipType::class, array_combine($zipDates, $zipFiles));
         $formUnzip->handleRequest($request);
         if ($formUnzip->isSubmitted() && $formUnzip->isValid()) {
             $zipFile = $formUnzip->get('zipFile')->getData();

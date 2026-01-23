@@ -20,7 +20,7 @@ class AdminUnzipType extends AbstractType
                 'required' => true,
                 'choices'  => $options['data'],
                 // 'choice_label' => fn ($choice, string $key, mixed $value) => $key,
-                'expanded' => true,
+                // 'expanded' => true,
             ])
 
             ->add(

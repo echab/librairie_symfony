@@ -110,8 +110,8 @@
         "name": "librairie_symfony_sources",
         "exclude": [
             "/**", "/.*", "!/.vscode", "!/bin/console", "!/bin/install_outils.cmd", "!/config", "!/assets", "!/src", "!/templates", "!/tests", "!/translations",
-            "!/posts/README*", "!/public/index.php", "!/public/favicon.ico", "!/public/images", "!/public/uploads/*/README.md", "!/backup/README.md", 
-            "!/.env", "!/.gitignore", "!/composer.json", "!/composer.lock", "!/importmap.php", "!/index.php", "!/README.md"
+            "!/posts/README*", "!/public/index.php", "!/public/favicon.ico", "!/public/images", "!/public/uploads/*/README*", "!/backup/README*", 
+            "!/.env", "!/.gitignore", "!/composer.json", "!/composer.lock", "!/importmap.php", "!/index.php", "!/README*"
         ]
     },
     "archive_V": {

@@ -125,3 +125,20 @@ php -S localhost:8008
 ```
 
 et ouvrir la page `http://localhost:8008` dans un navigateur.
+
+```mermaid
+flowchart LR
+route([Route _url_])
+controller[Controller<br>_*.php_]
+template[template<br>_*.twig_]
+service[Service / Repository<br>_*.php_]
+form[Form<br>_*.php_]
+%% entity[Entity<br>_*.php_]
+service[Service / Repository<br>_*.php_]
+
+route --> controller
+controller --> service
+controller ---> template
+%% controller -..-> entity
+controller -.-> form --> template
+```

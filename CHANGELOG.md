@@ -114,3 +114,16 @@
 🟦 Naviguer vers les vieux coups de cœur
 ✅ Importer les coeurs: C:\Users\chabaud\Documents\perso\Librairie\data\Philippe-Bouquet-2021php@gmail.com-WordPress.2025-08-19.xml
 ✅ Ajouter "#gauche" (-200x303-1.jpg#gauche) à toutes les images des coups de coeur (zip, en local, upload)
+
+2026-01-10
+🟦 Security: Hash password with username
+🟦 Security: ROLE_STOCK TODO?
+✅ Backup Posts, missing images dans public/uploads
+🟦 public/uploads/images pas dans git
+🟦 clear cache when file update locally
+🟦 page contact: d'ou vient l'email prérempli ?
+🟦 renommer "Agenda" en "Evènement"
+🟦 Edit post: revoir bouton "vider cache"
+
+2026-01-24
+🟦 

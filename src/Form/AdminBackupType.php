@@ -16,12 +16,13 @@ class AdminBackupType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            // ->add('fromDate', DateType::class, [
-            //     'label' => 'A partir du :',
-            //     'html5' => true,
-            //     'widget' => 'single_text',
-            //     'format' => self::HTML5_FORMAT,
-            // ])
+            ->add('fromDate', DateType::class, [
+                'label' => 'A partir du :',
+                'html5' => true,
+                'widget' => 'single_text',
+                'format' => self::HTML5_FORMAT,
+                'required' => false,
+            ])
 
             ->add('zip', SubmitType::class, [
                 'label' => 'Zip les posts',

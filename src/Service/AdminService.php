@@ -104,11 +104,11 @@ class AdminService
     /**
      * @param string $zipFile
      * @param string $sourceFolder
-     * @param string $filePattern
+     * @param string[] $filePatterns
      * @param \DateTime $fromDate
      * @return \Generator<mixed, string, mixed, bool>
      */
-    public function zip(string $zipFile, string $sourceFolder, string $filePattern, ?\DateTime $fromDate): \Generator
+    public function zip(string $zipFile, string $sourceFolder, array $filePatterns, ?\DateTime $fromDate): \Generator
     {
         $zip = new \ZipArchive;
         if (!$zip->open($zipFile, \ZipArchive::CREATE)) {
@@ -120,15 +120,17 @@ class AdminService
             $fromDate = $fromDate->getTimestamp();
         }
 
-        foreach (glob("$sourceFolder/$filePattern") as $file) {
-            if ($fromDate && filemtime($file) < $fromDate) {
-                continue;
-            }
-            $entryName = preg_replace('/\\\\/', '/', substr($file, strlen($sourceFolder) + 1));
-            yield "adding file $entryName";
-            if (!$zip->addFile($file, $entryName)) {
-                yield "🔺Error adding file $entryName";
-                break;
+        foreach ($filePatterns as $filePattern) {
+            foreach (glob("$sourceFolder/$filePattern", GLOB_BRACE) as $file) {
+                if ($fromDate && filemtime($file) < $fromDate) {
+                    continue;
+                }
+                $entryName = preg_replace('/\\\\/', '/', substr($file, strlen($sourceFolder) + 1));
+                yield "adding file $entryName";
+                if (!$zip->addFile($file, $entryName)) {
+                    yield "🔺Error adding file $entryName";
+                    break;
+                }
             }
         }
 
