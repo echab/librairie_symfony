@@ -128,10 +128,12 @@ Rayon::$rayons = [
     19 => new Rayon(19, "Classiques", "classiques", [
         190 => new Rayon(190, "Lettres classiques, Contes", "lettres-classiques-contes")
     ]),
+    40 => new Rayon(40, "Jeux - Jouets", "jeux", [
+        400 => new Rayon(400, "Jeux/Jouets", "jeuxjouets"),
+    ]),
     20 => new Rayon(20, "Autres", "autres", [
         // 200 => new Rayon( 200, "Papeterie", "papeterie"),
         // 300 => new Rayon( 300, "Carterie", "carterie"),
-        400 => new Rayon(400, "Jeux/Jouets", "jeuxjouets"),
         500 => new Rayon(500, "CD/DVD", "cddvd")
         // 600 => new Rayon( 600, "Café", "cafe"),
         // 700 => new Rayon( 700, "Dépôt", "depot")

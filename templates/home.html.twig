@@ -17,6 +17,23 @@
     {% endfor %}
 </section>
 
+{% if agendas|length %}
+<section class="agenda">
+    <h1>Les évènements à venir :</h1>
+    {% for post in agendas %}
+        <article class="post">
+            <a href="{{ path('post_view', { 'category': 'agenda', 'slug': post.slug }) }}">
+                <h2>
+                    <i class="genericon genericon-day big"></i>&nbsp;
+                    {{ post.titre }}
+                </h2>
+            </a>
+            <p>{{ post.html|raw }}</p>
+        </article>
+    {% endfor %}
+</section>
+{% endif %}
+
 <section class="postInfo">
     {% for post in infos %}
         <article class="post">
@@ -27,25 +44,4 @@
         </article>
     {% endfor %}
 </section>
-
-{% if agendas|length %}
-<section class="agenda">
-    <h1>Les évènements à venir :</h1>
-    {% for post in agendas %}
-        <article class="post">
-            <a href="{{ path('post_view', { 'category': 'agenda', 'slug': post.slug }) }}">
-                <h2>
-                    <i class="genericon genericon-day big"></i>&nbsp;
-                    {{ post.date|format_date('long') }}
-                    -
-                    {{ post.titre }}
-                </h2>
-            </a>
-            <p>{{ post.html|raw }}</p>
-        </article>
-    {% else %}
-    <p>Aucun évènement programmé.</p>
-    {% endfor %}
-</section>
-{% endif %}
 {% endblock %}

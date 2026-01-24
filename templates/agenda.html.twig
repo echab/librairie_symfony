@@ -9,8 +9,6 @@
             <a href="{{ path('post_view', { 'category': 'agenda', 'slug': post.slug }) }}">
                 <h2>
                     <i class="genericon genericon-day big"></i>&nbsp;
-                    {{ post.date|format_date('long') }}
-                    -
                     {{ post.titre }}
                 </h2>
             </a>

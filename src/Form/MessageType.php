@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -25,6 +26,10 @@ class MessageType extends AbstractType
                 'label' => 'Votre nom et prénom (obligatoire):',
                 'attr' => ['size' => 40, 'autocomplete' => 'name'],
                 'constraints' => new Assert\NotBlank,
+            ])
+            ->add('telephone', TelType::class, [
+                'label' => 'Votre numéro de téléphone (obligatoire):',
+                'attr' => ['size' => 15],
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Votre email (obligatoire):',
