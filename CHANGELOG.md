@@ -76,7 +76,7 @@
 ✅ Admin: Restore incremental (post, uploads), from a local zip file
 ✅ Admin: Update app, vendors, loading and unzippng a zip
 ✅ Admin: Backup/restore posts to/from a zip
-🟦 Admin: Delete a Backup
+🟦 #TODO Admin: Delete a Backup
 
 ❌ Déployer: install composer ?
 ✅ Déployer: build for prod ?
@@ -95,14 +95,14 @@
 
 ✅ Editor: Tasks to install, start, stop and build
 ✅ Editor: stop php to kill "php-cgi.exe" processes
-🟦 Editor: Simpler zip sources (a php script in bin) instead of composer archive
+🟦 #TODO Editor: Simpler zip sources (a php script in bin) instead of composer archive
 
-🟦 Admin: Run composer command
-🟦 Admin: Check all vendors: composer show -l
-🟦 Admin: Check outdated vendors: composer outdated
-🟦 Admin: Update vendors: composer update
-🟦 Migrate to PHP 8.4 and Symfony 7.4 (novembre 2025)
-🟦 Fix headers for security: Strict-Transport-Security, Content-Security-Policy, X-Frame-Options, X-Content-Type-Options https://securityheaders.com/?q=https%3A%2F%2Flibrairie-lespassantes.fr%2F see: https://symfony.com/bundles/NelmioSecurityBundle
+🟦 #TODO Admin: Run composer command
+🟦 #TODO Admin: Check all vendors: composer show -l
+🟦 #TODO Admin: Check outdated vendors: composer outdated
+🟦 #TODO Admin: Update vendors: composer update
+🟦 #TODO Migrate to PHP 8.4 and Symfony 7.4 (novembre 2025)
+🟦 #TODO Fix headers for security: Strict-Transport-Security, Content-Security-Policy, X-Frame-Options, X-Content-Type-Options https://securityheaders.com/?q=https%3A%2F%2Flibrairie-lespassantes.fr%2F see: https://symfony.com/bundles/NelmioSecurityBundle
 
 ✅ Lien instagram
 ✅ Panier couleur clair
@@ -111,19 +111,38 @@
 ✅ Panier avec commande
 ✅ Contact Nom et prénom
 ✅ Page de garde, accueil, fil rouge, etc.
-🟦 Naviguer vers les vieux coups de cœur
+🟦 #TODO Naviguer vers les vieux coups de cœur
 ✅ Importer les coeurs: C:\Users\chabaud\Documents\perso\Librairie\data\Philippe-Bouquet-2021php@gmail.com-WordPress.2025-08-19.xml
 ✅ Ajouter "#gauche" (-200x303-1.jpg#gauche) à toutes les images des coups de coeur (zip, en local, upload)
 
 2026-01-10
-🟦 Security: Hash password with username
-🟦 Security: ROLE_STOCK TODO?
+🟦 #TODO Security: Hash password with username
+🟦 #TODO Security: ROLE_STOCK TODO?
 ✅ Backup Posts, missing images dans public/uploads
-🟦 public/uploads/images pas dans git
-🟦 clear cache when file update locally
-🟦 page contact: d'ou vient l'email prérempli ?
-🟦 renommer "Agenda" en "Evènement"
-🟦 Edit post: revoir bouton "vider cache"
+🟦 #TODO public/uploads/images pas dans git
+🟦 #TODO clear cache when file update locally
+🟦 #TODO page contact: d'ou vient l'email prérempli ?
+🟦 #TODO renommer "Agenda" en "Evènement"
+🟦 #TODO Edit post: revoir bouton "vider cache"
 
 2026-01-24
-🟦 
+🟦 #TODO Agenda: Sur la home page, les à venir affichent aussi les vieux 
+🟦 #TODO Agenda: peut-on voir les évènements passés ?
+🟦 #TODO Agenda: home: afficher des extraits avec des vignettes pour les photos
+🟦 #TODO Agenda: évènement sur plusieurs jours?
+✅ Agenda: enlever la date devant le titre (pages: home, agenda)
+✅ Coeurs: ajouter un lien pour ouvrir le formulaire sans EAN. /edit/coups-de-coeur
+✅ Coeurs: ajouter un bouton pour charger les données à partir de l'EAN
+✅ Home: déplacer agenda avant les infos
+🟦 #TODO Post: photos /wp-content/uploads/* pas trouvées
+🟦 #TODO Post: supprimer un post
+✅ BUG Post: si coeur sans EAN, ajout de l'EAN, publier --> 404 (ex: Watership down) lien pas bonne catégorie
+✅ TODO Post: coeur, change EAN, aperçu --> 500
+🟦 #TODO Stock, search par rayon, on doit cliquer sur le bouton
+✅ Contact: ajouter téléphone (obligatoire), mail (optionel?)
+✅ BUG Coeurs: EAN lukyluke Dakota --> 500 attempt to read property "markdown" on null. Quand livre pas en stock.
+✅ BUG Coeurs: EAN --> 500 "Typed property App\Entity\Post::$markdown must not be accessed before initialization at CoeurController.php line 117". (avec un livre en stock).
+🟦 #TODO Coeurs: lien en dur https://products-images.di-static.com
+✅ BUG Coeurs: Après édition de "monde perdu T2" qui est dans 120=bd-manga, 404 -> url "bd manga" au lieu de "bd"
+🟦 #TODO Images: utiliser celle de l'alido https://images.epagine.fr/990/9782386690990_4_75.jpg
+✅ Coeurs: Bouton pour ajouter/remplacer la couverture avec l'EAN

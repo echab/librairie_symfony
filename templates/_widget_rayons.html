@@ -5,11 +5,4 @@
         <li><a href="{{ path('coups-de-coeur_rayon', {'category': r.slug}) }}">{{ r.titre }}</a></li>
         {% endfor %}
     </ul>
-
-    {% if is_granted('IS_AUTHENTICATED') %}
-    <form action="{{ path('coups-de-coeur_edit') }}" method="GET" class="inline">
-        <input type="text" placeholder="EAN" size=13 name="ean" required>
-        <button type="submit" title="Nouveau coup de cœur">❤️</button>
-    </form>
-    {% endif %}
 </nav>

@@ -92,11 +92,15 @@ i.genericon.big {
 input[type="text"],
 input[type="search"],
 input[type="email"],
+input[type="tel"],
 input[type="password"],
 input[type="date"],
 textarea,
 select {
     padding: .5em;
+}
+input:invalid {
+    border-color: var(--on-surface-primary-alt);
 }
 
 button,
@@ -457,7 +461,7 @@ ul.soutiens {
     }
 }
 
-nav.rayons {
+nav.rayons , nav.admin {
     background-color: var(--surface-container);
     color: var(--on-surface);
     border-radius: 0px 16px;

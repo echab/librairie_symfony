@@ -1,0 +1,25 @@
+<nav aria-label="Menu" class="admin">
+    {% if is_granted('IS_AUTHENTICATED') %}
+        <p style="display: flex; gap: 1em;">
+            <span>Créer&nbsp;:</span>
+            <span style="display: flex; flex-direction: column;">
+                <a href="{{ path('post_edit', { category: 'a-la-une' }) }}"><i class="genericon genericon-edit"></i> Une</a>
+                <a href="{{ path('post_edit', { category: 'agenda' }) }}"><i class="genericon genericon-day"></i> Evènement</a>
+                <a href="{{ path('post_edit', { category: 'info' }) }}"><i class="genericon genericon-info"></i> Info</a>
+                <a href="{{ path('coups-de-coeur_edit') }}"><i class="genericon genericon-heart"></i> Coup de cœur</a>
+            </span>
+        </p>
+        <p>
+            <form action="{{ path('coups-de-coeur_edit') }}" method="GET" class="inline">
+                <input type="text" placeholder="EAN" pattern="[0-9à&amp;é&quot;'\(\-è_ç]{13}" name="ean" required>
+                <button type="submit" title="Nouveau coup de cœur">❤️</button>
+            </form>
+        </p>
+
+        <p><a href="{{ path('post_clear') }}" title="Vider le cache">↻ Vider le cache</a></p>
+
+        <p><a href="{{ path('app_logout') }}"><i class="genericon genericon-lock"></i> Déconnecter</a> {{ app.user }}</p>
+    {% else %}    
+        <a href="{{ path('app_login') }}" class="genericon genericon-lock" title="Administration">&nbsp;</a>
+    {% endif %}    
+</nav>

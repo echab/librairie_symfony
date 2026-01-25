@@ -1,5 +1,28 @@
 // @ts-check
 
+// Convertit les EAN de la douchette
+
+const txtEAN = /** @type {HTMLInputElement | null} */(document.querySelector('input[pattern*="à&é"]'));
+if (txtEAN) {
+    txtEAN.addEventListener('change', function(e) {
+        const ean = getEAN();
+        if (ean) {
+            this.value = ean;
+        } 
+    });
+}
+
+function getEAN() {
+    const s = txtEAN?.value.trim();
+    if (!s?.match(/^[0-9&é"'\(\-è_çà]{13}$/)) {
+        return null;
+    }
+    return s.replace(
+        /[^\d]/g,
+        (m) => `${'à&é"\'(-è_ç'.indexOf(m)}`
+    );
+}
+
 // Images: position et taille
 
 const txtMarkdown = /** @type {HTMLTextAreaElement | null} */(document.getElementById('post_markdown'));
@@ -16,30 +39,54 @@ if (txtMarkdown && txtMarkdown.parentElement) {
             }
         }
     }
-    /** @param {RegExp} from @param {string} to @param {boolean} [toggle] */
-    const editImage = (from, to, toggle) => (/** @type {MouseEvent} */event) => {
+
+    const insertImage = (/** @type {MouseEvent} */event) => {
         event.preventDefault();
-        const sel = getSelectedImage();
-        if (sel) {
+        const ean = getEAN();
+        if (ean) {
+            const sel = getSelectedImage();
             txtMarkdown.focus();
-            txtMarkdown.setSelectionRange(sel.index, sel.index + sel[0].length);
-            txtMarkdown.setRangeText(`![${sel[1]}](${sel[2].replace(from, '') + (toggle && sel[2].includes(to) ? '' : to)})`);
+            if (sel) {
+                txtMarkdown.setSelectionRange(sel.index, sel.index + sel[0].length);
+            }
+            txtMarkdown.setRangeText(`![couverture](https://products-images.di-static.com/image/livre/${ean}-200x303-1.jpg#gauche)\n\n`);
         }
     };
-    const btnDef = [
-        { innerText: '⬚ à gauche', onclick: editImage(/#droite|#gauche/i, '#gauche', true), to: '#gauche' },
-        { innerText: 'à droite ⬚', onclick: editImage(/#droite|#gauche/i, '#droite', true), to: '#droite' },
-        { innerText: '⸋ vignette', onclick: editImage(/#vignette/i, '#vignette', true), to: '#vignette' },
-    ];
-    const buttons = btnDef.map(({ innerText, onclick }) =>
-        Object.assign(document.createElement('button'), { innerText, disabled: true, onclick })
-    );
+
+    const editImage = (/** @type {MouseEvent} */event) => {
+        event.preventDefault();
+        const button = /**@type {HTMLButtonElement} */(event.target);
+        const { from, to } = button.dataset;
+        const sel = getSelectedImage(); // TODO selection de plusieurs images
+        if (sel && from && to) {
+            txtMarkdown.focus();
+            txtMarkdown.setSelectionRange(sel.index, sel.index + sel[0].length);
+            txtMarkdown.setRangeText(`![${sel[1]}](${sel[2].replace(new RegExp(from, 'ig'), '') + (sel[2].includes(to) ? '' : to)})`);
+        }
+    };
+    const buttons = [
+        { innerText: '+Couverture', onclick: insertImage, title: "Ajoute une image de couverture à partir de l'EAN", disabled: !txtEAN },
+        { innerText: '⬚ à gauche', onclick: editImage, from: '#droite|#gauche', to: '#gauche', disabled: true, title: "Aligne à gauche l'image sélectionnée dans le texte" },
+        { innerText: 'à droite ⬚', onclick: editImage, from: '#droite|#gauche', to: '#droite', disabled: true, title: "Aligne à droite l'image sélectionnée dans le texte" },
+        { innerText: '⸋ vignette', onclick: editImage, from: '#vignette', to: '#vignette', disabled: true, title: "Affiche en vignette l'image sélectionnée dans le texte" },
+    ].map(({ from, to, ...attr }) => {
+        const btn = Object.assign(document.createElement('button'), { type: 'button', ...attr })
+        if (from) {
+            btn.dataset.from = from;
+            btn.dataset.to = to;
+        }
+        return btn;
+    });
 
     txtMarkdown.onselectionchange = () => {
         const sel = getSelectedImage();
-        buttons.forEach((btn, i) => {
-            btn.disabled = !sel;
-            btn.classList.toggle('primary', sel ? sel[2].includes(btnDef[i].to) : false);
+        buttons.forEach((btn) => {
+            if (btn.dataset.to) {
+                btn.disabled = !sel;
+                btn.classList.toggle('primary', sel ? sel[2].includes(btn.dataset.to) : false);
+            } else {
+                btn.disabled = !getEAN();
+            }
         });
     };
 
@@ -51,23 +98,38 @@ if (txtMarkdown && txtMarkdown.parentElement) {
     txtMarkdown.after(divButtons);
 }
 
+// Recharge l'EAN du post
+
+const btnReload = /** @type {HTMLButtonElement | null} */(document.getElementById('post_livre_reload'));
+if (txtEAN && btnReload && btnReload.form) {
+    btnReload.addEventListener('click', async (e) => {
+        const ean = getEAN();
+        if (ean) {
+            document.location = `/edit/coups-de-coeur?ean=${encodeURIComponent(ean)}`;
+        }
+    });
+}
+
 // Aperçu du post
 
 const btnPreview = /** @type {HTMLButtonElement | null} */(document.getElementById('post_actions_preview'));
 const divPreview = document.getElementById('divPreview');
 if (btnPreview && btnPreview.form && divPreview) {
-    btnPreview.addEventListener('click', async (e) => {
-        e.preventDefault();
-        const formData = /** @type {any} */(new FormData(btnPreview.form ?? undefined, btnPreview));
-        const resp = await fetch('/edit/preview/post', {
-            method: 'POST',
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: new URLSearchParams(formData).toString(),
-        });
-        if (resp.ok) {
-            divPreview.innerHTML = await resp.text();
-        } else {
-            divPreview.innerText = `Erreur ${resp.status} ${resp.statusText}`;
+    btnPreview.form.addEventListener('submit', async (e) => {
+        if (e.submitter === btnPreview) {
+            e.preventDefault();
+            divPreview.innerText = '...';
+            const formData = new FormData(/** @type {HTMLFormElement} */(e.target), e.submitter);
+            const resp = await fetch('/edit/preview/post', {
+                method: 'POST',
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: new URLSearchParams(/** @type {any} */(formData)).toString(),
+            });
+            if (resp.ok) {
+                divPreview.innerHTML = await resp.text();
+            } else {
+                divPreview.innerText = `Erreur ${resp.status} ${resp.statusText}`;
+            }
         }
     });
 }

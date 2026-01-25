@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Blog Home{% endblock %}
+{% block title %}{{ rayon.titre }}{% endblock %}
 
 {% block content %}
 <section>
@@ -31,6 +31,9 @@
             {% endif %}
             <span>Rayon {{post.category}}</span>
             <span>❤️ {{post.libraire ?? ''}} le {{ post.date|format_date('long') }}</span>
+            {% if is_granted('IS_AUTHENTICATED') %}
+            <a href="{{ path('coups-de-coeur_edit', {'slug': post.slug, 'category': post.category }) }}">✎Modifier</a>
+            {% endif %}    
         </p>
     </article>
     {% else %}

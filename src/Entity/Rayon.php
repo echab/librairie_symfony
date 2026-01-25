@@ -44,12 +44,12 @@ class Rayon
     public static function byCode(int $code, bool $principal = false): ?Rayon
     {
         $r = self::$byCode[$code] ?? null;
-        return $principal && $r ? self::$byCode[$r->parentCode] : $r;
+        return $principal && isset($r?->parentCode) ? self::$byCode[$r->parentCode] : $r;
     }
     public static function bySlug(string $slug, bool $principal = false): ?Rayon
     {
         $r = self::$bySlug[$slug] ?? null;
-        return $principal && $r ? self::$byCode[$r->parentCode] : $r;
+        return $principal && isset($r?->parentCode) ? self::$byCode[$r->parentCode] : $r;
     }
 }
 

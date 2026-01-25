@@ -8,7 +8,12 @@ use League\CommonMark\CommonMarkConverter;
 
 class Util
 {
-    public const IS_SLUG = '^[a-z0-9-]+$';
+    public const string IS_SLUG = '^[a-z0-9-]+$';
+
+    public static function isSlug(string $slug): bool
+    {
+        return preg_match('/^[a-z0-9-]+$/', $slug) === 1;
+    }
 
     public static function slugify(string $text): string
     {

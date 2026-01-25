@@ -8,6 +8,7 @@ use App\Entity\Post;
 use App\Entity\Rayon;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -17,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class PostType extends AbstractType
 {
@@ -53,9 +55,17 @@ class PostType extends AbstractType
 
                     ->add('ean', TextType::class, [
                         'label' => 'EAN :',
-                        'attr' => ['size' => 13],
+                        'attr' => ['size' => 13, 'pattern' => '[0-9à&é"\'\\(-è_ç]{13}'],
+                        'constraints' => new Assert\Regex('/^[0-9à&é"\'\\(\\-è_ç]{13}$/'),
                         'required' => true,
                     ])
+                    ->add('reload', ButtonType::class, [
+                        'label' => '↻',
+                        'attr' => [
+                            'style' => 'margin-top:2em; margin-left:-2em;',
+                        ],
+                    ])
+
                     ->add('editeur', TextType::class, [
                         'label' => 'Editeur :',
                         'attr' => ['size' => 20],
@@ -66,6 +76,7 @@ class PostType extends AbstractType
                         'html5' => true,
                         'widget' => 'single_text',
                         'format' => self::HTML5_FORMAT,
+                        'required' => false,
                     ])
                     ->add('prix', NumberType::class, [
                         'label' => 'Prix :',
@@ -74,7 +85,7 @@ class PostType extends AbstractType
                     ])
                     ->add('rayonCode', ChoiceType::class, [
                         'label' => 'Rayon:',
-                        'choices'  => array_map(fn($r) => $r->code, Rayon::$allSousRayons),
+                        'choices'  => array_map(fn($r) => $r->code, Rayon::$allRayons),
                         'choice_label' => fn(?int $code) => $code ? $code . ': ' . Rayon::byCode($code)->titre : '',
                         'group_by' => fn($code) => Rayon::byCode($code, true)->titre,
                         'required' => true,
@@ -108,6 +119,7 @@ class PostType extends AbstractType
             ->add('markdown', TextareaType::class, [
                 'label' => 'Votre texte:',
                 'attr' => ['rows' => 25, 'cols' => 93],
+                'constraints' => new Assert\NotBlank,
                 'help' => 'Ajoutez du style en utilisant <a href="https://docs.framasoft.org/fr/grav/markdown.html" target="_blank" rel="noreferrer">Markdown</a>.',
                 'help_html' => true,
             ])

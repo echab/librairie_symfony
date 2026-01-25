@@ -136,6 +136,31 @@ class PostRepository
         $yaml = YAML::dump($yaml);
         $markdownContent = "---\n$yaml---\n$post->markdown";
 
+        $folder = $this->getFolder($post);
+        $file = "$folder/$post->slug.md";
+
+        if (!file_exists($folder)) {
+            mkdir($folder, 0777, true);
+        }
+
+        if (false === file_put_contents($file, $markdownContent)) {
+            $errors[] = "Error writing post file $file";
+        } else {
+            // delete the previous post if it was into another folder
+            if ($prevPost && isset($prevPost->slug)) {
+                $prevFile = "{$this->getFolder($prevPost)}/$prevPost->slug.md";
+                if ($prevFile != $file && file_exists($prevFile)) {
+                    unlink($prevFile);
+                }
+            }
+        }
+
+        $this->pool->delete(self::POOL); //clear cache
+
+        return $errors;
+    }
+
+    public function getFolder(Post $post) {
         $folders = [$this->postsDir];
         if (isset($post->rayonCode)) {
             $rayon = Rayon::byCode($post->rayonCode) ?? Rayon::$defaut;
@@ -147,28 +172,7 @@ class PostRepository
             $folders[] = $post->category;
         }
 
-        $folder = join('/', $folders);
-        $file = "$folder/$post->slug.md";
-
-        if (!file_exists($folder)) {
-            mkdir($folder, 0777, true);
-        }
-
-        if (false === file_put_contents($file, $markdownContent)) {
-            $errors[] = "Error writing post file $file";
-        } else {
-            // delete the previous post if it was into another folder
-            if ($prevPost && $prevPost->category !== $post->category) {
-                $prevFile = "$this->postsDir/$prevPost->category/$prevPost->slug.md";
-                if (file_exists($prevFile)) {
-                    unlink($prevFile);
-                }
-            }
-        }
-
-        $this->pool->delete(self::POOL); //clear cache
-
-        return $errors;
+        return join('/', $folders);
     }
 
     public function cachedPosts()
@@ -195,10 +199,13 @@ class PostRepository
         $files = Util::recursiveFileIterator($this->postsDir, '/.*\.md$/');
         foreach ($files as $file) {
             $file = $file[0];
-            $category = basename(dirname($file));
-            $post = $this->fromMarkdownFile($file, $category);
-            if (!isset($post->expire) || $post->expire > $now) {
-                yield $post;
+            $slug = pathinfo($file, PATHINFO_FILENAME);
+            if (Util::isSlug($slug)) {
+                $category = basename(dirname($file));
+                $post = $this->fromMarkdownFile($file, $category);
+                if (!isset($post->expire) || $post->expire > $now) {
+                    yield $post;
+                }
             }
         }
     }

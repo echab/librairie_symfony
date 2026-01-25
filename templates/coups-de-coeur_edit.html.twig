@@ -20,7 +20,7 @@
     {% endif %}
     
     {% if is_edit and category is not null and slug is not null %}
-    <a href="{{path('coups-de-coeur_view', { category, slug })}}">Voir</a>
+    <a href="{{path('coups-de-coeur_view', { category, slug })}}">Voir le post</a>
     {% endif %}
 
     {% for msg in app.flashes('success') %}

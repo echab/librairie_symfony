@@ -143,7 +143,7 @@ class PostController extends AbstractController
     ): Response {
         $post = new Post(Rayon::$defaut->slug);
         $form = $this->createForm(PostType::class, $post, ['allow_extra_fields' => true]);
-        // $form->remove('category');
+        $form->remove('category'); // pour un livre, pas une des categories
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -151,8 +151,8 @@ class PostController extends AbstractController
                 'post' => $post,
             ]);
         } else {
-            $this->logger->error('preview données invalides: '. $form->getErrors(true)->__toString());
-            return new Response('Erreur, données invalides ! '. $form->getErrors(true)->__toString());
+            $this->logger->error('preview données invalides: '. $form->getErrors(true, false)->__toString());
+            return new Response('Erreur, données invalides ! '. $form->getErrors(true, false)->__toString());
         }
     }
 

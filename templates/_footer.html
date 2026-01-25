@@ -28,15 +28,4 @@
   </aside>
 
   {% include '_widget_contact.html' %}
-
-  {% if is_granted('IS_AUTHENTICATED') %}
-  <aside>
-    <p><a href="{{ path('app_logout') }}" class="genericon genericon-lock">Déconnexion</a></p>
-    <p><a href="{{ path('post_edit', { category: 'a-la-une' }) }}"><i class="genericon genericon-edit"></i>Nouvelle une</a></p>
-    <p><a href="{{ path('post_edit', { category: 'info' }) }}"><i class="genericon genericon-edit"></i>Nouvelle info</a></p>
-    <p><a href="{{ path('post_edit', { category: 'agenda' }) }}"><i class="genericon genericon-edit"></i>Nouvel évènement</a></p>
-  </aside>
-  {% else %}    
-      <a href="{{ path('app_login') }}" class="genericon genericon-lock" title="Administration">&nbsp;</a>
-  {% endif %}    
 </footer>

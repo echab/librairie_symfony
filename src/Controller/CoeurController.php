@@ -88,11 +88,14 @@ class CoeurController extends AbstractController
         #[CurrentUser] UserInterface $user,
         ?string $category = null,
         #[MapQueryParameter] ?string $slug = null,
-        #[MapQueryParameter] ?int $ean = null
+        #[MapQueryParameter] ?string $ean = null
     ): Response {
 
         if (empty($slug)) {
             $post = null;
+            if ($ean !== null) {
+                $ean = Util::toEan($ean);
+            }
             if ($ean !== null) {
                 $post = $this->posts->findByEan($ean);
                 if ($post) {
@@ -104,18 +107,18 @@ class CoeurController extends AbstractController
                 $postStock = self::postFromStock($ean);
                 $post = self::postFromWeb($ean);
 
-                if (!$post) {
-                    $post = $postStock;
-                } else {
+                if ($post) {
                     $post->markdown = "$post->markdown\n\n__Coup de cœur__\n\n";
+
                     if ($postStock) {
                         $post->category = $postStock->category;
                         $post->rayonCode = $postStock->rayonCode;
                         $post->prix = $postStock->prix;
                     }
+
+                    // $post->markdown = "![couverture](https://products-images.di-static.com/image/livre/$ean-70x95-1.jpg#gauche)\n\n$post->markdown";
+                    $post->markdown = "![couverture](https://products-images.di-static.com/image/livre/$ean-200x303-1.jpg#gauche)\n\n$post->markdown";
                 }
-                // $post->markdown = "![couverture](https://products-images.di-static.com/image/livre/$ean-70x95-1.jpg#gauche)\n\n$post->markdown";
-                $post->markdown = "![couverture](https://products-images.di-static.com/image/livre/$ean-200x303-1.jpg#gauche)\n\n$post->markdown";
             }
             $post ??= new Post(category: $category ?? Rayon::$defaut->slug);
             $post->ean ??= $ean;
@@ -132,7 +135,7 @@ class CoeurController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $post->category = ((isset($post->rayonCode) ? Rayon::byCode($post->rayonCode, true) : Rayon::$defaut) ?? Rayon::$defaut)->slug;
+            $post->category = ((isset($post->rayonCode) ? Rayon::byCode($post->rayonCode) : null) ?? Rayon::$defaut)->slug;
 
             $errors = $this->posts->save($post, $prevPost);
 
