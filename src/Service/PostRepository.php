@@ -6,9 +6,8 @@ namespace App\Service;
 
 use App\Entity\Rayon;
 use App\Entity\Post;
+use App\Service\MarkdownService;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Yaml\Exception\ParseException;
-use Symfony\Component\Yaml\Yaml;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
@@ -20,6 +19,7 @@ class PostRepository
 
     public function __construct(
         private string $postsDir,
+        private MarkdownService $markdownService,
         private CacheInterface $pool,
         private LoggerInterface $logger,
     ) {}
@@ -94,7 +94,7 @@ class PostRepository
 
         // trim all values
         foreach ($post as &$val) {
-            if (is_string($val)) {
+            if (\is_string($val)) {
                 $val = trim($val, " \n\r\t\v\0\"'");
             }
         }
@@ -106,35 +106,7 @@ class PostRepository
             $post->slug = $datePrefix . Util::slugify($post->titre);
         }
 
-        // Compose markdown with YAML front matter
-        $yaml = [
-            'titre' => $post->titre,
-        ];
-        if (isset($post->auteur)) {
-            $yaml['auteur'] = $post->auteur;
-        }
-        if (isset($post->editeur)) {
-            $yaml['editeur'] = $post->editeur;
-        }
-        if (isset($post->parution)) {
-            $yaml['parution'] = $post->parution->format('Y-m-d');
-        }
-        if (isset($post->prix)) {
-            $yaml['prix'] = $post->prix;
-        }
-        if (isset($post->ean)) {
-            $yaml['ean'] = $post->ean;
-        }
-        if (isset($post->rayonCode)) {
-            $yaml['rayonCode'] = $post->rayonCode;
-        }
-        $yaml['libraire'] = $post->libraire;
-        $yaml['date'] = $post->date->format('Y-m-d');
-        if (isset($post->expire)) {
-            $yaml['expire'] = $post->expire->format('Y-m-d');
-        }
-        $yaml = YAML::dump($yaml);
-        $markdownContent = "---\n$yaml---\n$post->markdown";
+        $markdownContent = $this->markdownService->buildMarkdown($post);
 
         $folder = $this->getFolder($post);
         $file = "$folder/$post->slug.md";
@@ -202,7 +174,7 @@ class PostRepository
             $slug = pathinfo($file, PATHINFO_FILENAME);
             if (Util::isSlug($slug)) {
                 $category = basename(dirname($file));
-                $post = $this->fromMarkdownFile($file, $category);
+                $post = $this->markdownService->fromMarkdownFile($file, $category);
                 if (!isset($post->expire) || $post->expire > $now) {
                     yield $post;
                 }
@@ -210,65 +182,7 @@ class PostRepository
         }
     }
 
-    public function fromMarkdownFile(
-        string $file,
-        string $category,
-    ): Post {
-        $post = new Post($category);
 
-        // $post->slug = basename($file, '.md');
-        $post->slug = basename($file, '.md');
-
-        $contents = file_get_contents($file);
-        $post->date = Util::from_timestamp(filemtime($file));
-
-        if (preg_match('/^---\s*(.*?)\s*---\s*(.*)$/s', $contents, $matches)) {
-            $yaml = $matches[1];
-            $post->markdown = $matches[2];
-
-            try {
-                $data = Yaml::parse($yaml);
-            } catch (ParseException $ex) {
-                $this->logger->error("Parsing yaml in $file: $ex");
-            }
-            $post->titre = $data['titre'] ?? $post->slug;
-
-            if (isset($data['libraire'])) {
-                $post->libraire = $data['libraire'];
-            }
-            if (isset($data['date'])) {
-                $post->date = toDate($data['date']) ?? $post->date;
-            }
-            if (isset($data['expire'])) {
-                $post->expire = toDate($data['expire']);
-            }
-            if (isset($data['ean'])) {
-                $post->ean = (int)$data['ean'];
-            }
-            if (isset($data['auteur'])) {
-                $post->auteur = $data['auteur'];
-            }
-            if (isset($data['editeur'])) {
-                $post->editeur = $data['editeur'];
-            }
-            if (isset($data['parution'])) {
-                $post->parution = toDate($data['parution']);
-            }
-            if (isset($data['rayonCode'])) {
-                $post->rayonCode = $data['rayonCode'];
-            } else if (isset($data['rayon'])) {
-                $post->rayonCode = Rayon::bySlug($data['rayon'])->code;
-            }
-            if (isset($data['prix'])) {
-                $post->prix = $data['prix'];
-            }
-        } else {
-            $post->markdown = $contents;
-            $post->titre = $post->slug;
-        }
-
-        return $post;
-    }
 }
 
 class PostCache
@@ -326,7 +240,7 @@ class PostCache
 function toDate(string|int $d)
 {
     try {
-        return is_string($d)
+        return \is_string($d)
             ? new \DateTime($d)
             : Util::from_timestamp($d);
     } catch (\Exception $ex) {

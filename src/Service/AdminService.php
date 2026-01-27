@@ -125,7 +125,7 @@ class AdminService
                 if ($fromDate && filemtime($file) < $fromDate) {
                     continue;
                 }
-                $entryName = preg_replace('/\\\\/', '/', substr($file, strlen($sourceFolder) + 1));
+                $entryName = preg_replace('/\\\\/', '/', substr($file, \strlen($sourceFolder) + 1));
                 yield "adding file $entryName";
                 if (!$zip->addFile($file, $entryName)) {
                     yield "🔺Error adding file $entryName";

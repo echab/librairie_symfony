@@ -74,7 +74,7 @@ Organisation des fichiers:
 
 - Mise à jour de l'application:
     - Dans le fichier `compose.json`, s'assurer que le block `"archive"` correspond bien à `"name": "librairie_symfony_app"`
-    - cliquer sur `📦Zip site` pour créer un nouveau fichier `librairie_symfony_app-*.zip`.
+    - cliquer sur `📦Zip site` pour créer un nouveau fichier `librairie_symfony_app-*.zip` dans backup.
     - Dans la page d'admin https://ma-librairie.fr/admin, cliquer sur `Uploader un fichier zip`, selectionner le fichier zip précédent et cliquez sur `Upload`.
     - Puis sélectionnez le fichier uploadé et cliquez sur `🔺Unzip`.
 

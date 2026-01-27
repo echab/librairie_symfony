@@ -57,8 +57,8 @@ class ImageController extends AbstractController
 
         $fileNames = array_map(
             fn($f) => [
-                str_replace('\\', '/', substr("$f[1].$f[2]", strlen($uploads) + 1)),
-                str_replace('\\', '/', substr("$f[0]", strlen($uploads) + 1)),
+                str_replace('\\', '/', substr("$f[1].$f[2]", \strlen($uploads) + 1)),
+                str_replace('\\', '/', substr("$f[0]", \strlen($uploads) + 1)),
             ],
             $files
         );

@@ -130,7 +130,7 @@ class ImportWordpressXmlCommand extends Command
     private function cdata(\XMLParser $parser, string $cdata)
     {
         $cdata = trim($cdata, " \n\r\t\v\0\"'");
-        if (strlen($cdata) && count($this->ancestors) >= 2) {
+        if (\strlen($cdata) && count($this->ancestors) >= 2) {
             $parent = $this->ancestors[array_key_last($this->ancestors)];
             $gparent = $this->ancestors[array_key_last($this->ancestors) - 1];
             $parents = "$gparent/$parent";

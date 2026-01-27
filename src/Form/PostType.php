@@ -6,12 +6,15 @@ namespace App\Form;
 
 use App\Entity\Post;
 use App\Entity\Rayon;
+use App\Form\DateOptionalTimeType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
@@ -22,8 +25,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class PostType extends AbstractType
 {
-    public const HTML5_FORMAT = 'yyyy-MM-dd';
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -75,7 +76,7 @@ class PostType extends AbstractType
                         'label' => 'Date de parution:',
                         'html5' => true,
                         'widget' => 'single_text',
-                        'format' => self::HTML5_FORMAT,
+                        'format' => DateType::HTML5_FORMAT,
                         'required' => false,
                     ])
                     ->add('prix', NumberType::class, [
@@ -102,16 +103,16 @@ class PostType extends AbstractType
                         'attr' => ['size' => 20],
                     ])
                     ->add('date', DateType::class, [
-                        'label' => 'Date*:',
+                        'label' => 'Date du post*:',
                         'html5' => true,
                         'widget' => 'single_text',
-                        'format' => self::HTML5_FORMAT,
+                        'format' => DateType::HTML5_FORMAT,
                     ])
                     ->add('expire', DateType::class, [
                         'label' => 'Date d’expiration:',
                         'html5' => true,
                         'widget' => 'single_text',
-                        'format' => self::HTML5_FORMAT,
+                        'format' => DateType::HTML5_FORMAT,
                         'required' => false,
                     ])
             )

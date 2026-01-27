@@ -101,8 +101,7 @@
             "/public/.htaccess", "/public/index.php",
             "/config/packages/web_profiler.yaml", "/config/routes/web_profiler.yaml",
             "/vendor",
-            "!/vendor/composer/autoload*.php",
-            "/.env*", "/deno.jsonc", "/deno.lock", "/install.php*", "*.zip", "/backup", "/README.md",
+            "/.env*", "/deno.jsonc", "/deno.lock", "/install.php*", "*.zip", "/backup", "/*.md",
             "/var", "/tests", "phpunit*", "*.dist", ".github", ".gitignore", "/.vscode"
         ]
     },
@@ -119,7 +118,6 @@
         "exclude": [
             "/**", "/.*", 
             "!/vendor",
-            "/vendor/composer/autoload*.php",
             "/vendor/symfony/intl/Resources/data",
             "!/vendor/symfony/intl/Resources/data/currencies/meta.php", "!/vendor/symfony/intl/Resources/data/currencies/fr.php", "!/vendor/symfony/intl/Resources/data/currencies/fr.php.gz",
             "!/vendor/symfony/intl/Resources/data/languages/meta.php", "!/vendor/symfony/intl/Resources/data/languages/fr.php", "!/vendor/symfony/intl/Resources/data/languages/fr.php.gz",

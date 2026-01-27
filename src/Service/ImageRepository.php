@@ -100,7 +100,7 @@ class ImageRepository
      */
     public function loadAll()
     {
-        $pos = strlen($this->imageUploadDir) + 1;
+        $pos = \strlen($this->imageUploadDir) + 1;
         // $files = glob("$this->imageUploadDir/**/*.{png,jpg,jpeg,gif}", GLOB_BRACE);
         $files = Util::recursiveFileIterator($this->imageUploadDir, '/.*\.(?:png|jpg|jpeg|gif)/i');
         foreach ($files as $file) {

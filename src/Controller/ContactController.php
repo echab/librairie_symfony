@@ -30,7 +30,7 @@ class ContactController extends AbstractController
         $commande = $request->getPayload()->getString('commande');
 
         $message = new Message();
-        if (strlen($commande)) {
+        if (\strlen($commande)) {
             $message->sujet = 'Commande client';
             $message->message = $commande;
         }

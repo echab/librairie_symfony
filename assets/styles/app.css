@@ -95,6 +95,8 @@ input[type="email"],
 input[type="tel"],
 input[type="password"],
 input[type="date"],
+input[type="datetime-local"],
+input[type="time"],
 textarea,
 select {
     padding: .5em;
@@ -305,6 +307,10 @@ article.post {
             max-width: 300px;
             max-height: 300px;
         }
+    }
+    &.short img {
+        max-width: 300px;
+        max-height: 200px;
     }
 }
 

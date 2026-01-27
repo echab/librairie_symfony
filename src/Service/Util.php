@@ -69,7 +69,7 @@ class Util
             Util::replace_accents(trim($mot))
         );
         $mots = array_unique(array_filter($mots, fn($m) => mb_strlen($m) >= 2));
-        usort($mots, fn($a, $b) => strlen($b) - strlen($a));
+        usort($mots, fn($a, $b) => \strlen($b) - \strlen($a));
 
         //remove empty words and keep only the 4 first
         if (count($mots) > 2) {

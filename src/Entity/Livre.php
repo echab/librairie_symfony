@@ -35,7 +35,7 @@ class Livre {
     ) {
         // TODO "2.85936.038.0" pour VENT TERRAL 9782859360380
         $this->ean = $source->ean ?? 
-            (is_int($source->i) || (is_string($source->i) && preg_match('/^\d{13}$/', $source->i)))
+            (\is_int($source->i) || (\is_string($source->i) && preg_match('/^\d{13}$/', $source->i)))
             ? $source->i
             : 0;
 
@@ -46,7 +46,7 @@ class Livre {
         $this->prix = $source->prix ?? $source->p;
         
         $this->parution = $source->parution ?? (
-            is_int($source->d) && $source->d > 19000101 && $source->d < 20350000
+            \is_int($source->d) && $source->d > 19000101 && $source->d < 20350000
             ? date_create_from_format('!Ymd', "$source->d")
             : date_create('2020-01-01')
         );
