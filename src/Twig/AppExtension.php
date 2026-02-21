@@ -26,6 +26,7 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFunction('rayons', [$this, 'rayons']),
+            new TwigFunction('instanceof', [$this, 'isInstanceof']),
         ];
     }
 
@@ -36,7 +37,7 @@ class AppExtension extends AbstractExtension
     #[AsTwigFilter('highlight')]
     public function highlight(string $text, array $searchTerms): string
     {
-        if (count($searchTerms) === 0) {
+        if (\count($searchTerms) === 0) {
             return $text;
         }
 
@@ -54,5 +55,15 @@ class AppExtension extends AbstractExtension
     public function rayons()
     {
         return Rayon::$rayons;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isInstanceof($var, $instance) {
+        return \get_class($var) === $instance;
+        // $reflexionClass = new \ReflectionClass($instance);
+        // return $reflexionClass->isInstance($var);
+        // return $var instanceof $instance;
     }
 }

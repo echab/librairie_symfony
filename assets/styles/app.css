@@ -381,12 +381,12 @@ header {
 
         .search-form {
             position: absolute;
-            right: 20px;
-            top: 1px;
+            right: 2em;
+            top: .4em;
 
             input[type=search] {
                 background-color: transparent;
-                background-color: var(--surface);
+                /* background-color: var(--surface); */
                 background-image: url(images/search-icon-2x.png);
                 background-position: 5px center;
                 background-repeat: no-repeat;

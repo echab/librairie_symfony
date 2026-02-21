@@ -80,7 +80,7 @@ class PostController extends AbstractController
     #[Route(['/post/{category}/{slug}'], name: 'post_view', methods: ['GET'], requirements: ['category' => Util::IS_SLUG, 'slug' => Util::IS_SLUG])]
     public function view(string $slug, string $category): Response
     {
-        $post = $this->posts->find($slug, $category);
+        $post = $this->posts->findOne($slug, $category);
 
         if (!$post) {
             throw $this->createNotFoundException('Post introuvable');
@@ -106,7 +106,7 @@ class PostController extends AbstractController
             $post->date = date_create();
             $post->libraire = $user->getUserIdentifier();
         } else {
-            $post = $this->posts->find($slug, $category);
+            $post = $this->posts->findOne($slug, $category);
         }
 
         $prevPost = clone $post; // clone to detect category change

@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Chercher{% endblock %}
+
+{% block content %}
+<section>
+    <h3>Chercher un livre ou un article</h3>
+
+    <form role="search" method="get" class="search-form" action="{{ path('search') }}">
+        <input type="search" class="search-field" placeholder="Rechercher…" value="{{mot}}" name="mot" minlength="2" />
+        <input type="submit" class="search-submit" value="Rechercher" />
+    </form>
+
+    {% for post in posts %}
+        {% if instanceof(post, 'App\\Entity\\Post') %}
+        <article class="post short">
+            <a href="{{ path('coups-de-coeur_view', {'slug': post.slug, 'category': post.category}) }}">
+                <h2>{{ post.titre|highlight([mot])|raw|sanitize_html }}</h2>
+            </a>
+            {% if post.auteur is defined %}<h3>par {{ post.auteur|highlight([mot])|raw|sanitize_html }}</h3>{% endif %}
+
+            <div class="contenu">
+                {{ post.getShortHtml(12, 500)|highlight([mot])|raw|sanitize_html }}
+                <a href="{{ path('coups-de-coeur_view', { 'slug': post.slug, 'category': post.category }) }}">…lire la suite</a>
+            </div>
+
+            <p class="info">
+                {% if post.editeur is defined %}<span>Edité par {{post.editeur}}</span>{% endif %}
+                {% if post.prix is defined %}<span>Prix&nbsp;: {{post.prix}}€</span>{% endif %}
+                {% if post.parution is defined %}<span>Paru le {{post.parution|format_date('long')}}</span>{% endif %}
+                {# <span>{{post.n}}&nbsp;en stock</span> #}
+                {% if post.ean is defined %}
+                    <button class="addPanier"
+                        data-ean="{{post.ean}}"
+                        data-titre="{{post.titre}}"
+                        data-auteur="{{post.auteur ?? ''}}"
+                        data-prix="{{post.prix ?? 0}}"
+                        data-rayon="{{post.rayonCode ?? ''}}"
+                    >Ajouter au panier</button>
+                {% endif %}
+                <span>Rayon {{post.category}}</span>
+                <span>❤️ {{post.libraire ?? ''}} le {{ post.date|format_date('long') }}</span>
+            </p>
+        </article>
+        {% elseif instanceof(post, 'App\\Entity\\Livre') %}
+        <article class="livre short">
+            {% set livre = post %}
+            <img alt="{{ livre.titre }}" loading="lazy"
+                src="https://products-images.di-static.com/image/livre/{{livre.ean}}-70x95-1.jpg"
+                data-src-small="https://products-images.di-static.com/image/livre/{{livre.ean}}-70x95-1.jpg"
+                data-src-big="https://products-images.di-static.com/image/livre/{{livre.ean}}-475x500-1.jpg"
+            >
+            <div class="desc">
+                <h2>{{ livre.titre|highlight([mot])|raw|sanitize_html }}</h2>
+                {% if livre.auteur is defined %}<h3>par {{ livre.auteur|highlight([mot])|raw|sanitize_html }}</h3>{% endif %}
+
+                <div class="contenu">
+                    {{ livre.resume|raw|sanitize_html }}
+                </div>
+
+                <p class="info">
+                    {% if livre.editeur is defined %}<span>Edité par {{livre.editeur}}</span>{% endif %}
+                    {% if livre.prix is defined %}<span>Prix&nbsp;: {{livre.prix}}€</span>{% endif %}
+                    {% if livre.parution is defined %}<span>Paru le {{livre.parution|format_date('long')}}</span>{% endif %}
+                    {# <span>{{livre.n}}&nbsp;en stock</span> #}
+                    {% if livre.ean is defined %}
+                        <button class="addPanier"
+                            data-ean="{{livre.ean}}"
+                            data-titre="{{livre.titre}}"
+                            data-auteur="{{livre.auteur ?? ''}}"
+                            data-prix="{{livre.prix ?? 0}}"
+                            data-rayon="{{livre.rayon ?? ''}}"
+                        >Ajouter au panier</button>
+                    {% endif %}
+                    {# <span>Rayon {{livre.category}}</span> #}
+                    {# <span>❤️ {{livre.libraire ?? ''}} le {{ livre.date|format_date('long') }}</span> #}
+                </p>
+            </div>
+        </article>
+        {% else %}
+        <article>
+            ???
+        </article>
+        {% endif %}
+    {% else %}
+    <p><i>Aucun article trouvé.</i></p>
+    {% endfor %}
+</section>
+{% endblock %}

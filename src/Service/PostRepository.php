@@ -38,17 +38,17 @@ class PostRepository
         $cache = $this->cachedPosts();
         return new \LimitIterator(
             $categories !== null
-                ? (count($categories) === 1
+                ? (\count($categories) === 1
                     ? new \ArrayIterator($cache->byCategory[$categories[0]] ?? [])
                     : new \CallbackFilterIterator(
                         new \ArrayIterator($cache->posts),
-                        fn($post) => in_array($post->category, $categories),
+                        fn($post) => \in_array($post->category, $categories),
                     )
                 )
                 : ($notCategories !== null
                     ? new \CallbackFilterIterator(
                         new \ArrayIterator($cache->posts),
-                        fn($post) => !in_array($post->category, $notCategories),
+                        fn($post) => !\in_array($post->category, $notCategories),
                     )
                     : new \ArrayIterator($cache->posts)
                 ),
@@ -58,9 +58,40 @@ class PostRepository
     }
 
     /**
+     * @param array{
+     *   mot: string,
+     *   notCategories: ?string[],
+     *   limit: ?positive-int
+     * } $filters */
+    public function find(array $filters)
+    {
+        $mot = $filters['mot'];
+        $notCategories = $filters['notCategories'] ?? null;
+        $filter = Util::searchPredicate($mot);
+
+
+        $cache = $this->cachedPosts();
+        return new \LimitIterator(
+            new \CallbackFilterIterator(
+                new \ArrayIterator($cache->posts),
+                fn($post) =>
+                    ($notCategories === null || !\in_array($post->category, $notCategories))
+                    && (
+                        stristr($post->titre, $mot) !== false
+                        || (isset($post->auteur) && stripos($post->auteur, $mot) !== false)
+                        || (isset($post->ean) && (string)$post->ean === $mot)
+                        // || stripos($post->markdown, $mot) !== false
+                    )
+            ),
+            0,
+            $filters['limit'] ?? 10
+        );
+    }
+
+    /**
      * Find a single post by slug (filename without extension)
      */
-    public function find(string $slug, string $category = 'a-la-une'): ?Post
+    public function findOne(string $slug, string $category = 'a-la-une'): ?Post
     {
         return $this->cachedPosts()->bySlug["$category/$slug"] ?? null;
     }

@@ -69,7 +69,7 @@ class CoeurController extends AbstractController
     #[Route(['/coups-de-coeur/{category}/{slug}'], name: 'coups-de-coeur_view', methods: ['GET'], requirements: ['category' => Util::IS_SLUG, 'slug' => Util::IS_SLUG])]
     public function view(string $category, string $slug): Response
     {
-        $post = $this->posts->find($slug, $category);
+        $post = $this->posts->findOne($slug, $category);
 
         if (!$post) {
             throw $this->createNotFoundException('Post introuvable');
@@ -125,7 +125,7 @@ class CoeurController extends AbstractController
             $post->date = date_create();
             $post->libraire = $user->getUserIdentifier();
         } else {
-            $post = $this->posts->find($slug, $category);
+            $post = $this->posts->findOne($slug, $category);
         }
 
         $prevPost = clone $post; // clone to detect category change
