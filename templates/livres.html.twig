@@ -89,7 +89,7 @@
                         <span>éditeur: {{livre.editeur}}</span>
                         <span>collection: {{livre.collection}}</span>
                         <span>date de parution: {{livre.parution|format_date('long')}}</span>
-                        <span>prix:&nbsp;{{livre.prix|number_format(2)}}€</span>
+                        <span>prix:&nbsp;{{livre.prix|euro}}</span>
                         <span>rayon <a href="?{{ app.request.query|merge({rayon: livre.rayon})|url_encode }}">{{ rayonByCode[livre.rayon].titre }}</a></span>
                         <span class="ifselected">code: {{ livre.ean }}</span>
                     </p>
