@@ -38,17 +38,17 @@ class PostRepository
         $cache = $this->cachedPosts();
         return new \LimitIterator(
             $categories !== null
-                ? (count($categories) === 1
+                ? (\count($categories) === 1
                     ? new \ArrayIterator($cache->byCategory[$categories[0]] ?? [])
                     : new \CallbackFilterIterator(
                         new \ArrayIterator($cache->posts),
-                        fn($post) => in_array($post->category, $categories),
+                        fn($post) => \in_array($post->category, $categories),
                     )
                 )
                 : ($notCategories !== null
                     ? new \CallbackFilterIterator(
                         new \ArrayIterator($cache->posts),
-                        fn($post) => !in_array($post->category, $notCategories),
+                        fn($post) => !\in_array($post->category, $notCategories),
                     )
                     : new \ArrayIterator($cache->posts)
                 ),

@@ -42,7 +42,7 @@ class ContactController extends AbstractController
                 ->to($this->mailContact)
                 ->from("$message->nom <$message->email>")
                 ->subject("[Contact] $message->sujet")
-                ->text($message->message);
+                ->text("$message->message\n\n$message->telephone");
 
             try {
                 $mailer->send($email);

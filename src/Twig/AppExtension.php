@@ -36,7 +36,7 @@ class AppExtension extends AbstractExtension
     #[AsTwigFilter('highlight')]
     public function highlight(string $text, array $searchTerms): string
     {
-        if (count($searchTerms) === 0) {
+        if (\count($searchTerms) === 0) {
             return $text;
         }
 

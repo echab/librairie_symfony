@@ -33,9 +33,15 @@ set PHP_EXE=!PHP!\php.exe
 if not exist "!PHP_EXE!" (
     @echo !ESC![0;34m• Installe PHP... !ESC![0m
 
-    set PHP_ZIP=php-8.3.24-nts-Win32-vs16-x64.zip
-    @REM set PHP_VERSION=php-8.4.11-nts-Win32-vs17-x64
-    set PHP_SHA256=f48d7f9b43197768c81bd4bfea3f5d246aed059e8aeb7f8b9ff9474fa5e9ec12
+    @REM get zip and sha from https://www.php.net/downloads.php
+    @REM set PHP_ZIP=php-8.3.24-nts-Win32-vs16-x64.zip
+    @REM set PHP_SHA256=f48d7f9b43197768c81bd4bfea3f5d246aed059e8aeb7f8b9ff9474fa5e9ec12
+
+    set PHP_ZIP=php-8.3.30-nts-Win32-vs16-x64.zip
+    set PHP_SHA256=42637b42b38b9c0d731e59c5cb8b755693a01b110cd2f31951f67de5cb4cd129
+
+    @REM set PHP_ZIP=php-8.4.17-nts-Win32-vs17-x64.zip
+    @REM set PHP_SHA256=c0dec956a5f1787c42f52ee410bacbf0ef091ca454eb42920ab7aab3d86234b0
 
     if not exist "!PHP!" ( mkdir "!PHP!" )
 
@@ -55,7 +61,7 @@ if not exist "!PHP_EXE!" (
     if not exist "!PHP!\php.ini" (
         powershell -command ^
         "$ini=[IO.File]::ReadAllText('!PHP!\php.ini-development'); " ^
-        "$ini=$ini -replace '; ?extension_dir ?= ?("")ext""','extension_dir = $1!PHP!\ext'; " ^
+        "$ini=$ini -replace '; ?(extension_dir ?= ?""ext"")','$1'; " ^
         "$ini=$ini -replace '; *(extension ?= ?openssl)','$1'; " ^
         "$ini=$ini -replace '; *(extension ?= ?curl)','$1'; " ^
         "$ini=$ini -replace '; *(extension ?= ?fileinfo)','$1'; " ^
@@ -78,15 +84,19 @@ if not exist "!PHP_EXE!" (
 if not exist "!PHP!\ext\php_xdebug.dll" (
     @echo !ESC![0;34m• Installe PHP XDebug... !ESC![0m
     @REM https://xdebug.org/wizard
+    @REM https://github.com/xdebug/xdebug/releases
 
-    set XDEBUG_VERSION=3.4.5-8.3-nts-vs16-x86_64
+    set XDEBUG_VERSION=php_xdebug-3.4.5-8.3-nts-vs16-x86_64.dll
     set XDEBUG_SHA256=0800BAE0FB4740E85A2B58CA795D7098AABD8E5FF051EF9440E934FC18624787
+
+    @REM set XDEBUG_VERSION=php_xdebug-3.5.0-8.4-nts-vs17-x86_64.dll
+    @REM set XDEBUG_SHA256=850b00be47783b72c221be408a6ea6665820a863ceea3d84d53e7a84ecc667f0
 
     @REM https://xdebug.org/files/php_xdebug-3.4.5-8.3-nts-vs16-x86_64.dll
 
     if not exist "!PHP!\ext" mkdir "!PHP!\ext"
     set XDEBUG_DLL=!PHP!\ext\php_xdebug.dll
-    "!PHP_EXE!" -r "copy('https://xdebug.org/files/php_xdebug-!XDEBUG_VERSION!.dll', '!XDEBUG_DLL!' !PHP_SSL!);"
+    "!PHP_EXE!" -r "copy('https://xdebug.org/files/!XDEBUG_VERSION!', '!XDEBUG_DLL!' !PHP_SSL!);"
     if errorlevel 1 goto :done
 
     powershell -command "$hash = (Get-FileHash '!XDEBUG_DLL!' -Algorithm 'SHA256').Hash; if ($hash -ne '!XDEBUG_SHA256!') { echo '🔺 !XDEBUG_DLL! corrupt, hash= ' $hash; Remove-Item '!XDEBUG_DLL!'; exit 1; }"
@@ -107,15 +117,14 @@ if not exist "!PHP!\ext\php_xdebug.dll" (
 if not exist "!PHP!\composer.phar" (
     @echo !ESC![0;34m• Installe Composer... !ESC![0m
 
-    @REM set COMPOSER_VERSION=2.8.10
-    set COMPOSER_SHA256=8586e7c8ce2839946a253a9ca3284e525245c1f82d8bd1e221cef88a59d00a75
+    @REM get SHA from https://getcomposer.org/download/
+    set COMPOSER_SHA384=c8b085408188070d5f52bcfe4ecfbee5f727afa458b2573b8eaaf77b3419b0bf2768dc67c86944da1544f06fa544fd47
 
     "!PHP_EXE!" -r "copy('https://getcomposer.org/installer', '!PHP!\composer-setup.php' !PHP_SSL!);"
     if errorlevel 1 goto :done
-    "!PHP_EXE!" -r "$hash = hash_file('sha256', '!PHP!\composer-setup.php'); if ($hash ^!== '!COMPOSER_SHA256!') { echo '🔺 Composer installer corrupt, hash= '. $hash . PHP_EOL; unlink('composer-setup.php'); exit(1); }"
+    "!PHP_EXE!" -r "$hash = hash_file('sha384', '!PHP!\composer-setup.php'); if ($hash ^!== '!COMPOSER_SHA384!') { echo '🔺 Composer installer corrupt, hash= '. $hash . PHP_EOL; unlink('!PHP!\composer-setup.php'); exit(1); }"
     if errorlevel 1 goto :done
-    @REM php composer-setup.php
-    pushd !PHP!
+    pushd "!PHP!"
     php composer-setup.php !COMPOSER_SSL!
     if errorlevel 1 ( popd & goto :done )
     popd
@@ -126,10 +135,10 @@ if not exist "!PHP!\composer.phar" (
 if not exist "!PHP!\composer.cmd" (
     echo.#^^!/usr/bin/env php 2^>nul > "!PHP!\composer.cmd"
     echo.: ^<?php /* >> "!PHP!\composer.cmd"
-    echo.^"!PHP_EXE!^" ^"!PHP!\composer.phar^" %%* >> "!PHP!\composer.cmd"
+    echo.^"%%~dp0php.exe^" ^"%%~dp0composer.phar^" %%* >> "!PHP!\composer.cmd"
     echo.goto :eof >> "!PHP!\composer.cmd"
     echo.@REM */ >> "!PHP!\composer.cmd"
-    echo.require '!PHP!\composer.phar'; >> "!PHP!\composer.cmd"
+    echo.require '^%%~dp0composer.phar'; >> "!PHP!\composer.cmd"
 )
 
 @echo !ESC![0;32m• ✅ Composer !ESC![0m
@@ -178,18 +187,18 @@ if not exist "%~dp0VSCode\code.exe" (
     "!PHP_EXE!" -r "$hash = hash_file('sha256', '!ZIP!'); if ($hash ^!== '!VSCODE_SHA256!') { echo 'Visual Studio Code installer corrupt hash='. $hash .PHP_EOL; unlink('!ZIP!'); exit(1); }"
     if errorlevel 1 goto :done
 
-    "!PHP_EXE!" -r "$z=new ZipArchive(); $z->open('!ZIP!', ZipArchive::RDONLY); $z->extractTo('%~dp0VSCode\'); $z->close(); unlink('!ZIP!');"
+    "!PHP_EXE!" -r "$z=new ZipArchive(); $z->open('!ZIP!', ZipArchive::RDONLY); $z->extractTo('%~dp0VSCode/'); $z->close(); unlink('!ZIP!');"
     if errorlevel 1 goto :done
 
     @REM powershell -command "Unblock-File '%~dp0VSCode\code.exe'"
 
-    @echo !ESC![0;34m• Installe Visual Studio Code extensions... !ESC![0m
-    call "%~dp0VSCode\code.exe" --install-extension devsense.phptools-vscode
-    call "%~dp0VSCode\code.exe" --install-extension redhat.vscode-yaml
-    call "%~dp0VSCode\code.exe" --install-extension xdebug.php-debug
-    call "%~dp0VSCode\code.exe" --install-extension actboy168.tasks
-    call "%~dp0VSCode\code.exe" --install-extension mblode.twig-language-2
-    call "%~dp0VSCode\code.exe" --install-extension xdebug.php-debug
+    @REM @echo !ESC![0;34m• Installe Visual Studio Code extensions... !ESC![0m
+    @REM call "%~dp0VSCode\code.exe" --install-extension devsense.phptools-vscode
+    @REM call "%~dp0VSCode\code.exe" --install-extension redhat.vscode-yaml
+    @REM call "%~dp0VSCode\code.exe" --install-extension xdebug.php-debug
+    @REM call "%~dp0VSCode\code.exe" --install-extension actboy168.tasks
+    @REM call "%~dp0VSCode\code.exe" --install-extension mblode.twig-language-2
+    @REM call "%~dp0VSCode\code.exe" --install-extension xdebug.php-debug
 )
 @echo !ESC![0;32m• ✅ Visual Studio Code !ESC![0m
 

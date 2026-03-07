@@ -4,7 +4,7 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.1",
+        "php": ">=8.3",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "league/commonmark": "^2.7",
@@ -102,7 +102,7 @@
             "/config/packages/web_profiler.yaml", "/config/routes/web_profiler.yaml",
             "/vendor",
             "/.env*", "/deno.jsonc", "/deno.lock", "/install.php*", "*.zip", "/backup", "/*.md",
-            "/var", "/tests", "phpunit*", "*.dist", ".github", ".gitignore", "/.vscode"
+            "/bin", "/var", "/tests", "phpunit*", "*.dist", ".github", ".gitignore", "/.vscode"
         ]
     },
     "archive_Sources": {

@@ -11,7 +11,7 @@
 
         <p class="info">
             {% if post.editeur is defined %}<span>Edité par {{post.editeur}}</span>{% endif %}
-            {% if post.prix is defined %}<span>Prix&nbsp;: {{post.prix}}€</span>{% endif %}
+            {% if post.prix is defined %}<span>Prix&nbsp;: {{post.prix|number_format(2, ',')}}€</span>{% endif %}
             {% if post.parution is defined %}<span>Paru le {{post.parution|format_date('long')}}</span>{% endif %}
             {# <span>{{post.n}}&nbsp;en stock</span> #}
             {% if post.ean is defined %}

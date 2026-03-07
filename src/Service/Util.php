@@ -72,8 +72,8 @@ class Util
         usort($mots, fn($a, $b) => \strlen($b) - \strlen($a));
 
         //remove empty words and keep only the 4 first
-        if (count($mots) > 2) {
-            $mots = array_slice(
+        if (\count($mots) > 2) {
+            $mots = \array_slice(
                 array_filter(
                     $mots,
                     fn($m) => !mb_eregi(

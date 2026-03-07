@@ -68,11 +68,11 @@ class AdminService
                 // yield "$currentIndex " . ($targetExists ? '🔺' : '') ." $filename";
                 $toBeExtracted[] = $filename;
 
-                if (count($toBeExtracted) >= 100) {
+                if (\count($toBeExtracted) >= 100) {
                     $r = $zip->extractTo($targetFolder, $toBeExtracted);
                     $first = $toBeExtracted[array_key_first($toBeExtracted)];
                     $last = $toBeExtracted[array_key_last($toBeExtracted)];
-                    $count = count($toBeExtracted);
+                    $count = \count($toBeExtracted);
                     if ($r) { $nbWritten += $count; } else { $nbError += $count; }
                     yield $r ? "✅ $count fichiers : $first 🡲 $last" : "🔺 $zipFile unzip error!";
                     $toBeExtracted = [];
@@ -85,12 +85,12 @@ class AdminService
             }
         }
 
-        if (count($toBeExtracted)) {
+        if (\count($toBeExtracted)) {
             // yield "$currentIndex ";
             $r = $zip->extractTo($targetFolder, $toBeExtracted);
             $first = $toBeExtracted[array_key_first($toBeExtracted)];
             $last = $toBeExtracted[array_key_last($toBeExtracted)];
-            $count = count($toBeExtracted);
+            $count = \count($toBeExtracted);
             if ($r) { $nbWritten += $count; } else { $nbError += $count; }
             yield $r ? "✅ $count fichiers : $first 🡲 $last" : "🔺 $zipFile unzip error!";
         }

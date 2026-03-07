@@ -19,7 +19,7 @@
         </p>
         <p>
             <label>dans le rayon:
-                <select name='rayon' ZZZonChange="this.form.submit()">
+                <select name='rayon' onChange="this.form.submit()">
                     <option value="0">tous ({{ countByRayon.0 }})</option>
                     {% for rayon1 in rayons %}
                         <optgroup label="{{rayon1.label}} {{ countByRayon[rayon1.code] is defined ? '(' ~ countByRayon[rayon1.code] ~ ')' : '' }}">

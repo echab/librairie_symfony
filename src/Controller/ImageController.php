@@ -53,7 +53,7 @@ class ImageController extends AbstractController
             "$uploads/$folder",
             "/(.+)(?:-\d+x$size|-$size"."x\d+)\.(png|jpg|jpeg)\$/i"
         ));
-        $n = count($files);
+        $n = \count($files);
 
         $fileNames = array_map(
             fn($f) => [
@@ -86,7 +86,7 @@ class ImageController extends AbstractController
             foreach ($errors as $err) {
                 $this->addFlash('error', $err);
             }
-            if (!count($errors)) {
+            if (!\count($errors)) {
                 $name = $imageFile->getClientOriginalName();
                 $this->addFlash('success', "✅ Image $name enregistrée.");
             }

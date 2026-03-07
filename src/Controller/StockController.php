@@ -56,14 +56,14 @@ class StockController extends AbstractController
             $filter = Util::searchPredicate($mot);
             $livres = $this->stock->findAll($rayon ?? 0, $filter, 0, 10000);
 
-            if ($rayon > 0 && count($livres) < $limit) {
-                $posAutres = count($livres) - $offset;
+            if ($rayon > 0 && \count($livres) < $limit) {
+                $posAutres = \count($livres) - $offset;
                 $livresAutre = $this->stock->findAll(-$rayon, $filter, 0, 10000);
             }
         }
 
-        $nLivresRayon = count($livres);
-        $nLivres = $nLivresRayon + count($livresAutre);
+        $nLivresRayon = \count($livres);
+        $nLivres = $nLivresRayon + \count($livresAutre);
         $nPage = ceil($nLivres / $limit);
 
         $countByRayon = [
@@ -86,7 +86,7 @@ class StockController extends AbstractController
             usort($livresAutre, $by[$tri]);
         }
 
-        $livresPage = array_slice(array_merge($livres, $livresAutre), $offset, $limit);
+        $livresPage = \array_slice(array_merge($livres, $livresAutre), $offset, $limit);
 
         $coeurByEan = $this->posts->findByEans(array_map(fn($livre) => $livre->ean, $livresPage));
 
@@ -162,7 +162,7 @@ class StockController extends AbstractController
 
         $errors = $this->stock->saveStockFile($stockFiles);
 
-        if (count($errors)) {
+        if (\count($errors)) {
             return $this->json([
                 'message' => "Erreur de chargement du fichier $basename",
                 'errors' => $errors
