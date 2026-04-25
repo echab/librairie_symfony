@@ -24,6 +24,11 @@
 /assets/vendor/
 ###< symfony/asset-mapper ###
 
+/bin
+!/bin/console
+!/bin/phpunit
+!/bin/install_outils.cmd
+
 *.zip
 /backup/*
 !/backup/README
