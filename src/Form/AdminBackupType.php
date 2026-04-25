@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class AdminBackupType extends AbstractType
 {
-    public const HTML5_FORMAT = 'yyyy-MM-dd';
+    public const string HTML5_FORMAT = 'yyyy-MM-dd';
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

@@ -19,6 +19,7 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFilter('highlight', [$this, 'highlight']),
+            new TwigFilter('euro', [$this, 'euro']),
         ];
     }
 
@@ -46,6 +47,15 @@ class AppExtension extends AbstractExtension
             '<mark>$1</mark>',
             $text
         );
+    }
+
+    /**
+     * Format a number as a price in euros.
+     */
+    #[AsTwigFilter('euro')]
+    public function euro(float $prix): string
+    {
+        return str_replace(',00', '', number_format($prix, 2, ',')) . '€';
     }
 
     /**

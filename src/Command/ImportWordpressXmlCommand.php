@@ -102,7 +102,7 @@ class ImportWordpressXmlCommand extends Command
     //region xml parsing
     private function startElement(\XMLParser $parser, string $name, array $attrs)
     {
-        if (count($this->ancestors) >= 2) {
+        if (\count($this->ancestors) >= 2) {
             $parent = $this->ancestors[array_key_last($this->ancestors)];
             $parents = "$parent/$name";
             switch ($parents) {
@@ -130,7 +130,7 @@ class ImportWordpressXmlCommand extends Command
     private function cdata(\XMLParser $parser, string $cdata)
     {
         $cdata = trim($cdata, " \n\r\t\v\0\"'");
-        if (\strlen($cdata) && count($this->ancestors) >= 2) {
+        if (\strlen($cdata) && \count($this->ancestors) >= 2) {
             $parent = $this->ancestors[array_key_last($this->ancestors)];
             $gparent = $this->ancestors[array_key_last($this->ancestors) - 1];
             $parents = "$gparent/$parent";
@@ -186,7 +186,7 @@ class ImportWordpressXmlCommand extends Command
     {
         array_pop($this->ancestors);
 
-        if (count($this->ancestors) >= 2) {
+        if (\count($this->ancestors) >= 2) {
             $parent = $this->ancestors[array_key_last($this->ancestors)];
             $parents = "$parent/$name";
             switch ($parents) {

@@ -57,7 +57,7 @@ class LoginController extends AbstractController
         $user = $userProvider->loadUserByIdentifier($log);
         if (
             !$user->isEnabled()
-            || !in_array('ROLE_STOCK', $user->getRoles())
+            || !\in_array('ROLE_STOCK', $user->getRoles())
             || !$passwordHasher->isPasswordValid($user, $pswd)
         ) {
             throw $this->createAccessDeniedException('Invalid user or password');

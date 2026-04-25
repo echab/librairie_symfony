@@ -146,3 +146,7 @@
 ✅ BUG Coeurs: Après édition de "monde perdu T2" qui est dans 120=bd-manga, 404 -> url "bd manga" au lieu de "bd"
 🟦 #TODO Images: utiliser celle de l'alido https://images.epagine.fr/990/9782386690990_4_75.jpg
 ✅ Coeurs: Bouton pour ajouter/remplacer la couverture avec l'EAN
+
+2026-03-07
+✅ Contact: ajout du téléphone dans les messages
+✅ Coeurs: Les prix finissants par 0 ne s'affichent pas

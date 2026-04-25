@@ -85,8 +85,8 @@ class StockRepository
         }
 
         // $livres = new \LimitIterator(
-        if (count($livres) > $limit) {
-            $livres = array_slice(
+        if (\count($livres) > $limit) {
+            $livres = \array_slice(
                 // array_values($livres),
                 $livres,
                 $offset,
