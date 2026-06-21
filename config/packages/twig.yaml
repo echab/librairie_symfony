@@ -9,6 +9,12 @@ twig:
     globals:
         # TODO use the '%env(IMAGES_PATH)%'' variable
         images_path: '/uploads/images/'
+        image_ean_couv_big: '%env(IMAGE_COUV_BIG_URL)%'
+        image_ean_couv_med: '%env(IMAGE_COUV_MED_URL)%'
+        image_ean_couv_small: '%env(IMAGE_COUV_SMALL_URL)%'
+        image_ean_4couv_big: '%env(IMAGE_4COUV_BIG_URL)%'
+        image_ean_4couv_small: '%env(IMAGE_4COUV_SMALL_URL)%'
+        google_tag_manager_id: '%env(GOOGLE_TAG_MANAGER_ID)%'
 
 when@test:
     twig:

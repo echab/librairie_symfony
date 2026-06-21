@@ -9,13 +9,13 @@
     <h1>{{ is_edit ? 'Edite le coup de cœur' : 'Nouveau coup de cœur' }}</h1>
 
     {% if ean %}
-    <img src="https://products-images.di-static.com/image/livre/{{ean}}-70x95-1.jpg"
-        data-src-small="https://products-images.di-static.com/image/livre/{{ean}}-70x95-1.jpg"
-        data-src-big="https://products-images.di-static.com/image/livre/{{ean}}-475x500-1.jpg"
+    <img src="{{ image_ean_couv_small|eanUrl(ean) }}"
+        data-src-small="{{ image_ean_couv_small|eanUrl(ean) }}"
+        data-src-big="{{ image_ean_couv_big|eanUrl(ean) }}"
     >
-    <img src="https://products-images.di-static.com/image/livre/{{ean}}_Q-70x95-1.jpg"
-        data-src-small="https://products-images.di-static.com/image/livre/{{ean}}_Q-70x95-1.jpg"
-        data-src-big="https://products-images.di-static.com/image/livre/{{ean}}_Q-475x500-1.jpg"
+    <img src="{{ image_ean_4couv_small|eanUrl(ean) }}"
+        data-src-small="{{ image_ean_4couv_small|eanUrl(ean) }}"
+        data-src-big="{{ image_ean_4couv_big|eanUrl(ean) }}"
     >
     {% endif %}
     

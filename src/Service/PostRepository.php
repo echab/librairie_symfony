@@ -28,6 +28,7 @@ class PostRepository
      * @param array{
      *   categories: ?string[],
      *   notCategories: ?string[],
+     *   offset: ?positive-int
      *   limit: ?positive-int
      * } $filters */
     public function findLast(array $filters)
@@ -52,7 +53,7 @@ class PostRepository
                     )
                     : new \ArrayIterator($cache->posts)
                 ),
-            0,
+            $filters['offset'] ?? 0,
             $filters['limit'] ?? 10
         );
     }

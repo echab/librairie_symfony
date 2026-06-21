@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Twig;
 
 use App\Entity\Rayon;
+use App\Service\Util;
 use Twig\Attribute\AsTwigFilter;
 use Twig\Attribute\AsTwigFunction;
 use Twig\Extension\AbstractExtension;
@@ -20,6 +21,7 @@ class AppExtension extends AbstractExtension
         return [
             new TwigFilter('highlight', [$this, 'highlight']),
             new TwigFilter('euro', [$this, 'euro']),
+            new TwigFilter('eanUrl', [$this, 'eanUrl']),
         ];
     }
 
@@ -55,6 +57,15 @@ class AppExtension extends AbstractExtension
     public function euro(float $prix): string
     {
         return str_replace(',00', '', number_format($prix, 2, ',')) . '€';
+    }
+
+    /**
+     * Format an url replacing placeholders like "{ean}", "{ean,3}", "{ean,-3}"
+     */
+    #[AsTwigFilter('eanUrl')]
+    public function eanUrl(string $urlTempl, string|int $ean): string
+    {
+        return Util::formatUrl($urlTempl, \strval($ean));
     }
 
     /**

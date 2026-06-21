@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% import "_nav.html.twig" as nav %}
+
 {% block title %}Coups de cœur{% endblock %}
 
 {% block content %}
@@ -29,10 +31,11 @@
                     data-rayon="{{post.rayonCode ?? ''}}"
                 >Ajouter au panier</button>
             {% endif %}
-            <span>Rayon {{post.category}}</span>
+            <a href="{{path('coups-de-coeur_rayon', { category: post.category })}}">Rayon {{post.category}}</a>
             <span>❤️ {{post.libraire ?? ''}} le {{ post.date|format_date('long') }}</span>
         </p>
     </article>
     {% endfor %}
+    {{ nav.pages(page, page, true) }}
 </section>
 {% endblock %}

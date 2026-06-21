@@ -21,12 +21,12 @@ class ImageRepository
         private CacheInterface $pool,
     ) {}
 
-    public function findLast(int $limit = 10)
+    public function findLast(int $offset = 0, int $limit = 10)
     {
         $cache = $this->cachedImages();
         return new \LimitIterator(
             new \ArrayIterator($cache->images ?? []),
-            0,
+            $offset,
             $limit
         );
     }

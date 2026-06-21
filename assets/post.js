@@ -1,5 +1,7 @@
 // @ts-check
 
+import { imageUrl } from "./util.js";
+
 // Convertit les EAN de la douchette
 
 const txtEAN = /** @type {HTMLInputElement | null} */(document.querySelector('input[pattern*="à&é"]'));
@@ -49,7 +51,7 @@ if (txtMarkdown && txtMarkdown.parentElement) {
             if (sel) {
                 txtMarkdown.setSelectionRange(sel.index, sel.index + sel[0].length);
             }
-            txtMarkdown.setRangeText(`![couverture](https://products-images.di-static.com/image/livre/${ean}-200x303-1.jpg#gauche)\n\n`);
+            txtMarkdown.setRangeText(`![couverture](${imageUrl(ean, 1)}#gauche)\n\n`);
         }
     };
 

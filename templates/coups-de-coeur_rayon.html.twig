@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% import "_nav.html.twig" as nav %}
+
 {% block title %}{{ rayon.titre }}{% endblock %}
 
 {% block content %}
@@ -39,5 +41,6 @@
     {% else %}
         <p>Pas de coup de cœur dans ce rayon, avez-vous des suggestions ?</p>
     {% endfor %}
+    {{ nav.pages(page, page, true) }}
 </section>
 {% endblock %}

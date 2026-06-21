@@ -92,7 +92,7 @@ class ImageController extends AbstractController
             }
         }
 
-        $lastImages = $this->images->findLast(10);
+        $lastImages = $this->images->findLast(0, 10);
 
         return $this->render('image_gallery.html.twig', [
             'formImage' => $formImage,
