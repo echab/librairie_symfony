@@ -64,7 +64,7 @@ class Util
     public static function formatUrl(string $urlTempl, string $ean)
     {
         return mb_ereg_replace_callback(
-            "\{ean(?:,(-?\d+))?\}",
+            "\{ean(?:,(-?\d+))?\}|%s", // %s for backward compatibility
             function($c) use($ean) {
                 $p = \strlen($c[1]) > 0 ? \intval($c[1]) : 0;
                 return $p
