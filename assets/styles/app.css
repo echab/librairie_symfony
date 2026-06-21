@@ -386,8 +386,7 @@ header {
 
             input[type=search] {
                 background-color: transparent;
-                /* background-color: var(--surface); */
-                background-image: url(images/search-icon-2x.png);
+                background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' style='stroke:%23747472; stroke-width:3; fill:none;' viewBox='0 0 50 50'><circle cx='22.5' cy='22.5' r='17.5'/><line x1='35' y1='35' x2='45' y2='45'/></svg>");
                 background-position: 5px center;
                 background-repeat: no-repeat;
                 background-size: 24px 24px;
