@@ -30,14 +30,17 @@ class PostRepository
      *   notCategories: ?string[],
      *   offset: ?positive-int
      *   limit: ?positive-int
-     * } $filters */
+     * } $filters
+     * @return array<Post>
+     */
     public function findLast(array $filters)
     {
         $categories = $filters['categories'] ?? null;
         $notCategories = $filters['notCategories'] ?? null;
 
         $cache = $this->cachedPosts();
-        return new \LimitIterator(
+
+        $iter = new \LimitIterator(
             $categories !== null
                 ? (\count($categories) === 1
                     ? new \ArrayIterator($cache->byCategory[$categories[0]] ?? [])
@@ -56,6 +59,12 @@ class PostRepository
             $filters['offset'] ?? 0,
             $filters['limit'] ?? 10
         );
+
+        try {
+            return iterator_to_array($iter);
+        } catch (\OutOfBoundsException $e) { // if bad offset
+            return [];
+        }
     }
 
     /**
@@ -86,7 +95,7 @@ class PostRepository
     }
 
     /**
-     * @param \App\Entity\Post $post
+     * @param Post $post
      * @return string[]
      */
     public function save(Post $post, ?Post $prevPost)

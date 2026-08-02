@@ -12,20 +12,21 @@ use Symfony\Contracts\Cache\ItemInterface;
 
 class ImageRepository
 {
-    private const POOL_IMAGES = 'images';
+    private const string POOL_IMAGES = 'images';
 
-    private const CACHE_DURATION = 'P7D'; // 7 jours
+    private const string CACHE_DURATION = 'P7D'; // 7 jours
 
     public function __construct(
         private string $imageUploadDir,
         private CacheInterface $pool,
     ) {}
 
+    /** @return array<Image> */
     public function findLast(int $offset = 0, int $limit = 10)
     {
         $cache = $this->cachedImages();
-        return new \LimitIterator(
-            new \ArrayIterator($cache->images ?? []),
+        return \array_slice(
+            $cache->images ?? [],
             $offset,
             $limit
         );
