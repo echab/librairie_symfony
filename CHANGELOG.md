@@ -157,3 +157,6 @@
 ✅ Coeurs: lien vers rayon dans liste des coups de coeur
 🟦 #TODO Coeurs: liens navigation avec certaines sous-catégories (litté, etc.), seulement si il y a des coups de coeur
 🟦 #TODO Coeurs: breadcrumb pour remonter à la catégorie parent
+
+2026-08-02
+✅ BUG stock: ignore rayon 600 invalide (Enveloppe)
