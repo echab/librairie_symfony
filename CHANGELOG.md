@@ -150,3 +150,6 @@
 2026-03-07
 ✅ Contact: ajout du téléphone dans les messages
 ✅ Coeurs: Les prix finissants par 0 ne s'affichent pas
+
+2026-08-02
+✅ BUG stock: ignore rayon 600 invalide (Enveloppe)
