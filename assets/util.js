@@ -87,13 +87,22 @@ export async function toClipboard(text) {
 //     });
 // }
 
-/** @param {number} ean @param {boolean} [isBig=false] @param {boolean} [isBack=false] */
-export function imageUrl(ean, isBig, isBack) {
+/** @param {string|number} ean @param {0|1|2} [size=0] @param {boolean} [isBack=false] */
+export function imageUrl(ean, size, isBack) {
     // if( location.protocol === 'file:' || '127.0.0.1' === location.host) return 'about:blank';   //for debug without image TODO
     //TODO use srcset=""
-    return `https://products-images.di-static.com/image/livre/${ean}${isBack ? '_Q' : ''}-${isBig ? '475x500' : '70x95'}-1.jpg`;	//Width x Height - Zoom
-    //return 'https://products-images.di-static.com/image/livre/' + ean + '-202x303-1.jpg';
-    //return 'https://products-images.di-static.com/image/livre/' + ean + '-475x500-1.jpg';
+    //@ts-expect-error variable defined in global.d.ts
+    /** @type {string} */(site_env[`image_ean_${isBack ? '4couv' : 'couv'}_${['small', 'mid', 'big'][size ?? 0]}`])
+        .replace(
+            /\{ean(?:,(-?\d+))?\}/g,
+            (_, width) => {
+                const v = String(ean);
+                const w = width ? parseInt(width, 10) : 0;
+                return w
+                    ? w > 0 ? v.slice(0, w) : v.slice(w)
+                    : v
+            }
+        );
 }
 
 /** @param {number | undefined | null} prix */

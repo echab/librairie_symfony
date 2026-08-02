@@ -28,20 +28,27 @@ class CoeurController extends AbstractController
     ) {}
 
     #[Route(['/coups-de-coeur'], name: 'coups-de-coeur', methods: ['GET'])]
-    public function index(): Response
+    public function index(
+        #[MapQueryParameter] int $page = 1,
+    ): Response
     {
         $posts = $this->posts->findLast([
             'notCategories' => ['a-la-une', 'info', 'agenda', 'photos', 'inconnu'],
+            'offset' => ($page - 1) * 10,
             'limit' => 10,
         ]);
 
         return $this->render('coups-de-coeur.html.twig', [
             'posts' => $posts,
+            'page' => $page,
         ]);
     }
 
     #[Route(['/coups-de-coeur/{category}'], name: 'coups-de-coeur_rayon', methods: ['GET'], requirements: ['category' => Util::IS_SLUG])]
-    public function indexCategory(string $category): Response
+    public function indexCategory(
+        string $category,
+        #[MapQueryParameter] int $page = 1,
+    ): Response
     {
         $rayon = Rayon::bySlug($category);
         if (!$rayon) {
@@ -56,6 +63,7 @@ class CoeurController extends AbstractController
                     array_map(fn($r) => $r->slug, $rayon->sousRayons),
                 )
                 : [$category],
+            'offset' => ($page - 1) * 10,
             'limit' => 10,
         ]);
 
@@ -63,6 +71,7 @@ class CoeurController extends AbstractController
             'posts' => $posts,
             'rayon' => $rayon,
             'category' => $category,
+            'page' => $page,
         ]);
     }
 
@@ -116,8 +125,8 @@ class CoeurController extends AbstractController
                         $post->prix = $postStock->prix;
                     }
 
-                    // $post->markdown = "![couverture](https://products-images.di-static.com/image/livre/$ean-70x95-1.jpg#gauche)\n\n$post->markdown";
-                    $post->markdown = "![couverture](https://products-images.di-static.com/image/livre/$ean-200x303-1.jpg#gauche)\n\n$post->markdown";
+                    $image_url = Util::formatUrl($request->server->get('IMAGE_COUV_MED_URL'), \strval($ean));
+                    $post->markdown = "![couverture]($image_url#gauche)\n\n$post->markdown";
                 }
             }
             $post ??= new Post(category: $category ?? Rayon::$defaut->slug);
@@ -204,7 +213,7 @@ class CoeurController extends AbstractController
     }
     protected function postFromWeb(int $ean): ?Post
     {
-        $html = @file_get_contents(sprintf($this->eanWebUrl, $ean));
+        $html = @file_get_contents(Util::formatUrl($this->eanWebUrl,\strval($ean)));
         if ($html === false) {
             return null;
         }
@@ -228,8 +237,8 @@ class CoeurController extends AbstractController
             }
         }
         $post = new Post(Rayon::$defaut->slug);
-        $post->ean = (isset($ld->sku) ? intval($ld->sku) : null) ??
-            (isset($ld->isbn) ? intval(str_replace('-', '', $ld->isbn)) : null) ??
+        $post->ean = (isset($ld->sku) ? \intval($ld->sku) : null) ??
+            (isset($ld->isbn) ? \intval(str_replace('-', '', $ld->isbn)) : null) ??
             $ean;
         $post->titre = preg_replace('/[-\s]*(Grand Format|Poche)/i', '', $ld->name);
         $post->auteur = $auteur;

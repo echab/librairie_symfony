@@ -59,14 +59,14 @@
         {% endif %}
         <article class="livre" aria-selected="false">
             <img alt="{{ livre.titre }}" loading="lazy"
-                src="https://products-images.di-static.com/image/livre/{{livre.ean}}-70x95-1.jpg"
-                data-src-small="https://products-images.di-static.com/image/livre/{{livre.ean}}-70x95-1.jpg"
-                data-src-big="https://products-images.di-static.com/image/livre/{{livre.ean}}-475x500-1.jpg"
+                src="{{ image_ean_couv_small|eanUrl(livre.ean) }}"
+                data-src-small="{{ image_ean_couv_small|eanUrl(livre.ean) }}"
+                data-src-big="{{ image_ean_couv_big|eanUrl(livre.ean) }}"
             >
             <img alt="4e de couverture" class="ifselected" loading="lazy"
-                src="https://products-images.di-static.com/image/livre/{{livre.ean}}_Q-70x95-1.jpg"
-                data-src-small="https://products-images.di-static.com/image/livre/{{livre.ean}}_Q-70x95-1.jpg"
-                data-src-big="https://products-images.di-static.com/image/livre/{{livre.ean}}_Q-475x500-1.jpg"
+                src="{{ image_ean_4couv_small|eanUrl(livre.ean) }}"
+                data-src-small="{{ image_ean_4couv_small|eanUrl(livre.ean) }}"
+                data-src-big="{{ image_ean_4couv_big|eanUrl(livre.ean) }}"
             >
             <div class="desc">
                 <h2>
@@ -90,7 +90,7 @@
                         <span>collection: {{livre.collection}}</span>
                         <span>date de parution: {{livre.parution|format_date('long')}}</span>
                         <span>prix:&nbsp;{{livre.prix|euro}}</span>
-                        <span>rayon <a href="?{{ app.request.query|merge({rayon: livre.rayon})|url_encode }}">{{ rayonByCode[livre.rayon].titre }}</a></span>
+                        <span>rayon <a href="?{{ app.request.query|merge({rayon: livre.rayon})|url_encode }}">{{ rayonByCode[livre.rayon] is defined ? rayonByCode[livre.rayon].titre : livre.rayon }}</a></span>
                         <span class="ifselected">code: {{ livre.ean }}</span>
                     </p>
                     {% if livre.ean is not empty %}

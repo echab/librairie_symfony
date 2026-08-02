@@ -7,6 +7,7 @@ namespace App\Command;
 use App\Entity\Post;
 use App\Entity\Rayon;
 use App\Service\PostRepository;
+use App\Service\Util;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -43,6 +44,7 @@ class ImportWordpressXmlCommand extends Command
 
     public function __construct(
         private PostRepository $postRepository,
+        private string $eanImageUrl,
     ) {
         parent::__construct();
 
@@ -83,7 +85,7 @@ class ImportWordpressXmlCommand extends Command
 
         while ($data = fread($fp, 4096)) {
             if (!xml_parse($this->parser, $data, feof($fp))) {
-                $this->io->error(sprintf(
+                $this->io->error(\sprintf(
                     "XML error: %s at line %d",
                     xml_error_string(xml_get_error_code($this->parser)),
                     xml_get_current_line_number($this->parser)
@@ -208,7 +210,8 @@ class ImportWordpressXmlCommand extends Command
 
                         if (isset($this->post->ean) && !str_contains($this->post->markdown, '![')) {
                             $ean = $this->post->ean;
-                            $this->post->markdown = "![couverture](https://products-images.di-static.com/image/livre/$ean-200x303-1.jpg#gauche)\n\n" . $this->post->markdown;
+                            $image_url = Util::formatUrl($this->eanImageUrl, \strval($ean));
+                            $this->post->markdown = "![couverture]($image_url#gauche)\n\n" . $this->post->markdown;
                         }
 
                         // $this->io->info("saving " . xml_get_current_line_number($parser) .' ' . $this->post->category . " - " . $this->post->titre);

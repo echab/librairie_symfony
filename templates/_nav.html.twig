@@ -1,5 +1,5 @@
-{% macro pages(nPage, currentPage) %}
-    {% if nPage > 1 %}
+{% macro pages(nPage, currentPage, next) %}
+    {% if nPage > 1 or (next and nPage > 0) %}
         {% set pages = range( max(1, min(currentPage - 5, nPage - 10)), min(max(currentPage + 5, 10), nPage) ) %}
         {% if 1 not in pages %}{% set pages = [1]|merge(pages) %}{% endif %}
         {% if nPage not in pages %}{% set pages = pages|merge([nPage]) %}{% endif %}
@@ -12,6 +12,9 @@
                 <a href="?{{app.request.query|merge({ 'page': p == 1 ? null : p})|url_encode }}">{{p}}</a>
             {% endif %}
         {% endfor %}
+        {% if next %}
+            <a href="?{{app.request.query|merge({ 'page': currentPage + 1 })|url_encode }}">suivante...</a>
+        {% endif %}
         </div>
     {% endif %}
 {% endmacro %}

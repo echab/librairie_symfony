@@ -9,6 +9,7 @@ parameters:
     image_directory: '%kernel.project_dir%/%env(IMAGES_PATH)%'
     mail_contact: '%env(MAIL_CONTACT)%'
     ean_web_url: '%env(EAN_WEB_URL)%'
+    ean_image_url: '%env(IMAGE_COUV_MED_URL)%'
 
 services:
     # default configuration for services in *this* file
@@ -49,6 +50,10 @@ services:
     App\Controller\CoeurController:
         arguments:
             $eanWebUrl: '%ean_web_url%'
+
+    App\Command\ImportWordpressXmlCommand:
+        arguments:
+            $eanImageUrl: '%ean_image_url%'
 
 when@prod:
     services:

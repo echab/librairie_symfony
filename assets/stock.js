@@ -141,8 +141,17 @@ function Livre(props) {
     }
     return html`
     <article class="livre" aria-selected="false" data-ean=${() => props.livre.i}>
-        <img alt=' ' title='Cliquez pour zoomer' class='zoom couv' src=${() => imageUrl(props.livre.i)} data-src-small=${() => imageUrl(props.livre.i)} data-src-big=${() => imageUrl(props.livre.i, true)} loading="lazy">
-        <img alt=' ' title='Cliquez pour zoomer' class='zoom ifselected' src=${() => imageUrl(props.livre.i, false, true)} data-src-small=${() => imageUrl(props.livre.i, false, true)} data-src-big=${() => imageUrl(props.livre.i, true, true)} loading="lazy" onError=${hideMe}>
+        <img alt=' ' title='Cliquez pour zoomer' class='zoom couv'
+            src=${() => imageUrl(props.livre.i)}
+            data-src-small=${() => imageUrl(props.livre.i)}
+            data-src-big=${() => imageUrl(props.livre.i, 2)}
+            loading="lazy">
+        <img alt=' ' title='Cliquez pour zoomer' class='zoom ifselected'
+            src=${() => imageUrl(props.livre.i, 0, true)}
+            data-src-small=${() => imageUrl(props.livre.i, 0, true)}
+            data-src-big=${() => imageUrl(props.livre.i, 2, true)}
+            loading="lazy"
+            onError=${hideMe}>
         <div class="desc">
             <h2>${() => coeur() && html`
                 <a title="Coup de cœur des libraires"

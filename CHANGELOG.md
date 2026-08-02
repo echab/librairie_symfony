@@ -144,9 +144,19 @@
 ✅ BUG Coeurs: EAN --> 500 "Typed property App\Entity\Post::$markdown must not be accessed before initialization at CoeurController.php line 117". (avec un livre en stock).
 🟦 #TODO Coeurs: lien en dur https://products-images.di-static.com
 ✅ BUG Coeurs: Après édition de "monde perdu T2" qui est dans 120=bd-manga, 404 -> url "bd manga" au lieu de "bd"
-🟦 #TODO Images: utiliser celle de l'alido https://images.epagine.fr/990/9782386690990_4_75.jpg
+🟦 #TODO Images: utiliser celle de l'alido https://images.epagine.fr/990/9782386690990_1_75.jpg https://images.epagine.fr/990/9782386690990_4_75.jpg https://images.epagine.fr/990/9782386690990_1_m.jpg https://images.epagine.fr/990/9782386690990_4_m.jpg
 ✅ Coeurs: Bouton pour ajouter/remplacer la couverture avec l'EAN
 
 2026-03-07
 ✅ Contact: ajout du téléphone dans les messages
 ✅ Coeurs: Les prix finissants par 0 ne s'affichent pas
+
+2026-04-25
+✅ Stats google analytics
+✅ Coeurs: navigation si plus de 10
+✅ Coeurs: lien vers rayon dans liste des coups de coeur
+🟦 #TODO Coeurs: liens navigation avec certaines sous-catégories (litté, etc.), seulement si il y a des coups de coeur
+🟦 #TODO Coeurs: breadcrumb pour remonter à la catégorie parent
+
+2026-08-02
+✅ BUG stock: ignore rayon 600 invalide (Enveloppe)

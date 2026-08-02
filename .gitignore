@@ -39,3 +39,4 @@
 stock_*.json.gz
 /install.php
 /README.local.md
+/old-*

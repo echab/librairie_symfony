@@ -34,7 +34,7 @@ class LetterCaptcha implements CaptchaInterface
     protected function getQuestion(string $word, int $letterIndex): string
     {
         return $this->translator->trans('captcha_sentence', [
-            'index' => $this->translator->trans(sprintf('captcha_%s', self::INDEX_MAPPING[$letterIndex])),
+            'index' => $this->translator->trans(\sprintf('captcha_%s', self::INDEX_MAPPING[$letterIndex])),
             'letter' => $this->translator->trans('captcha_letter'),
             'word' => $word,
         ]);

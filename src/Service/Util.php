@@ -51,11 +51,28 @@ class Util
         if (!mb_ereg_match("^[0-9à&é\"'(\-è_ç]{13}$", $mot)) {
             return null;
         }
-        return intval(mb_ereg_replace_callback(
+        return \intval(mb_ereg_replace_callback(
             "[^\d]",
             fn($c) => mb_strpos("à&é\"'(-è_ç", $c[0]),
             $mot
         ));
+    }
+
+    /**
+     * Return an url replacing placeholders like "{ean}", "{ean,3}", "{ean,-3}"
+     */
+    public static function formatUrl(string $urlTempl, string $ean)
+    {
+        return mb_ereg_replace_callback(
+            "\{ean(?:,(-?\d+))?\}|%s", // %s for backward compatibility
+            function($c) use($ean) {
+                $p = \strlen($c[1]) > 0 ? \intval($c[1]) : 0;
+                return $p
+                    ? $p > 0 ? substr($ean, 0, $p) : substr($ean, $p)
+                    : $ean;
+            },
+            $urlTempl
+        );
     }
 
     /**
