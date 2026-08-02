@@ -67,13 +67,8 @@ class AppExtension extends AbstractExtension
         return Rayon::$rayons;
     }
 
-    /**
-     * @return bool
-     */
+    /** @return bool */
     public function isInstanceof($var, $instance) {
         return \get_class($var) === $instance;
-        // $reflexionClass = new \ReflectionClass($instance);
-        // return $reflexionClass->isInstance($var);
-        // return $var instanceof $instance;
     }
 }

@@ -24,12 +24,12 @@ class Post
 
     // livre fields
     #[Assert\Length(exactly: 13)]
-    public ?int $ean;
-    public ?string $auteur;
-    public ?string $editeur;
-    public ?\DateTime $parution;
-    public ?float $prix;
-    public ?int $rayonCode;
+    public ?int $ean = null;
+    public ?string $auteur = null;
+    public ?string $editeur = null;
+    public ?\DateTime $parution = null;
+    public ?float $prix = null;
+    public ?int $rayonCode = null;
 
     // agenda fields
     public ?\DateTime $debut;

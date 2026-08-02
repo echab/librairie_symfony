@@ -30,12 +30,13 @@ class SearchController extends AbstractController
     ): Response
     {
         $limit = 10;
-        $offset = (abs($page) - 1) * $limit; // TODO page
+        // $offset = (abs($page) - 1) * $limit; // TODO page
         $mot = trim($mot ?? '');
 
         $posts = $this->posts->find([
             'mot' => $mot,
             'notCategories' => ['a-la-une', 'info', 'agenda', 'photos', 'inconnu'],
+            // 'offset' => $offset,
             'limit' => $limit,
         ]);
 
@@ -53,6 +54,7 @@ class SearchController extends AbstractController
         return $this->render('search.html.twig', [
             'posts' => $posts,
             'mot' => $mot,
+            'page' => $page,
         ]);
     }
 }

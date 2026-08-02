@@ -13,9 +13,9 @@ use Symfony\Contracts\Cache\ItemInterface;
 
 class PostRepository
 {
-    private const POOL = 'posts';
+    private const string POOL = 'posts';
 
-    private const CACHE_DURATION = 'P7D'; // 7 jours
+    private const string CACHE_DURATION = 'P7D'; // 7 jours
 
     public function __construct(
         private string $postsDir,
@@ -67,8 +67,9 @@ class PostRepository
     {
         $mot = $filters['mot'];
         $notCategories = $filters['notCategories'] ?? null;
-        $filter = Util::searchPredicate($mot);
+        $predicate = Util::searchPredicate($mot);
 
+        // TODO sort found result by pertinence (searchPredicate() could return the average position in the text)
 
         $cache = $this->cachedPosts();
         return new \LimitIterator(
@@ -76,12 +77,7 @@ class PostRepository
                 new \ArrayIterator($cache->posts),
                 fn($post) =>
                     ($notCategories === null || !\in_array($post->category, $notCategories))
-                    && (
-                        stristr($post->titre, $mot) !== false
-                        || (isset($post->auteur) && stripos($post->auteur, $mot) !== false)
-                        || (isset($post->ean) && (string)$post->ean === $mot)
-                        // || stripos($post->markdown, $mot) !== false
-                    )
+                    && $predicate("$post->titre ". ($post->auteur ?? '') .' '. ($post->ean ?? '') .' '. ($post->markdown ?? ''))
             ),
             0,
             $filters['limit'] ?? 10

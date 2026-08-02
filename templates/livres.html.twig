@@ -93,7 +93,7 @@
                         <span>rayon <a href="?{{ app.request.query|merge({rayon: livre.rayon})|url_encode }}">{{ rayonByCode[livre.rayon].titre }}</a></span>
                         <span class="ifselected">code: {{ livre.ean }}</span>
                     </p>
-                    {% if livre.ean is defined %}
+                    {% if livre.ean is not empty %}
                         <button class="addPanier"
                             data-ean="{{livre.ean}}"
                             data-titre="{{livre.titre}}"

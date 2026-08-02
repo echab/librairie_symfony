@@ -5,16 +5,16 @@
 {% block content %}
     <article class="post">
         <h1>{{ post.titre }}</h1>
-        {% if post.auteur is defined %}<h3>par {{ post.auteur }}</h3>{% endif %}
+        {% if post.auteur is not empty %}<h3>par {{ post.auteur }}</h3>{% endif %}
 
         <div class="contenu">{{ post.html|raw }}</div>
 
         <p class="info">
-            {% if post.editeur is defined %}<span>Edité par {{post.editeur}}</span>{% endif %}
-            {% if post.prix is defined %}<span>Prix&nbsp;: {{post.prix|euro}}</span>{% endif %}
-            {% if post.parution is defined %}<span>Paru le {{post.parution|format_date('long')}}</span>{% endif %}
+            {% if post.editeur is not empty %}<span>Edité par {{post.editeur}}</span>{% endif %}
+            {% if post.prix is not empty %}<span>Prix&nbsp;: {{post.prix|euro}}</span>{% endif %}
+            {% if post.parution is not empty %}<span>Paru le {{post.parution|format_date('long')}}</span>{% endif %}
             {# <span>{{post.n}}&nbsp;en stock</span> #}
-            {% if post.ean is defined %}
+            {% if post.ean is not empty %}
                 <button class="addPanier"
                     data-ean="{{post.ean}}"
                     data-titre="{{post.titre}}"

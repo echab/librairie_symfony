@@ -17,7 +17,7 @@
             <a href="{{ path('coups-de-coeur_view', {'slug': post.slug, 'category': post.category}) }}">
                 <h2>{{ post.titre|highlight([mot])|raw|sanitize_html }}</h2>
             </a>
-            {% if post.auteur is defined %}<h3>par {{ post.auteur|highlight([mot])|raw|sanitize_html }}</h3>{% endif %}
+            {% if post.auteur is not empty %}<h3>par {{ post.auteur|highlight([mot])|raw|sanitize_html }}</h3>{% endif %}
 
             <div class="contenu">
                 {{ post.getShortHtml(12, 500)|highlight([mot])|raw|sanitize_html }}
@@ -25,11 +25,11 @@
             </div>
 
             <p class="info">
-                {% if post.editeur is defined %}<span>Edité par {{post.editeur}}</span>{% endif %}
-                {% if post.prix is defined %}<span>Prix&nbsp;: {{post.prix}}€</span>{% endif %}
-                {% if post.parution is defined %}<span>Paru le {{post.parution|format_date('long')}}</span>{% endif %}
+                {% if post.editeur is not empty %}<span>Edité par {{post.editeur}}</span>{% endif %}
+                {% if post.prix is not empty %}<span>Prix&nbsp;: {{post.prix}}€</span>{% endif %}
+                {% if post.parution is not empty %}<span>Paru le {{post.parution|format_date('long')}}</span>{% endif %}
                 {# <span>{{post.n}}&nbsp;en stock</span> #}
-                {% if post.ean is defined %}
+                {% if post.ean is not empty %}
                     <button class="addPanier"
                         data-ean="{{post.ean}}"
                         data-titre="{{post.titre}}"
@@ -52,18 +52,18 @@
             >
             <div class="desc">
                 <h2>{{ livre.titre|highlight([mot])|raw|sanitize_html }}</h2>
-                {% if livre.auteur is defined %}<h3>par {{ livre.auteur|highlight([mot])|raw|sanitize_html }}</h3>{% endif %}
+                {% if livre.auteur is not empty %}<h3>par {{ livre.auteur|highlight([mot])|raw|sanitize_html }}</h3>{% endif %}
 
                 <div class="contenu">
                     {{ livre.resume|raw|sanitize_html }}
                 </div>
 
                 <p class="info">
-                    {% if livre.editeur is defined %}<span>Edité par {{livre.editeur}}</span>{% endif %}
-                    {% if livre.prix is defined %}<span>Prix&nbsp;: {{livre.prix}}€</span>{% endif %}
-                    {% if livre.parution is defined %}<span>Paru le {{livre.parution|format_date('long')}}</span>{% endif %}
+                    {% if livre.editeur is not empty %}<span>Edité par {{livre.editeur}}</span>{% endif %}
+                    {% if livre.prix is not empty %}<span>Prix&nbsp;: {{livre.prix}}€</span>{% endif %}
+                    {% if livre.parution is not empty %}<span>Paru le {{livre.parution|format_date('long')}}</span>{% endif %}
                     {# <span>{{livre.n}}&nbsp;en stock</span> #}
-                    {% if livre.ean is defined %}
+                    {% if livre.ean is not empty %}
                         <button class="addPanier"
                             data-ean="{{livre.ean}}"
                             data-titre="{{livre.titre}}"
